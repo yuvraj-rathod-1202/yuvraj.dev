@@ -30,8 +30,7 @@ twitter_username: jekyllrb
 github_username:  yuvraj-rathod-1202
 
 # Build settings
-theme: minima
-remote_theme: minima
+remote_theme: jekyll/minima
 plugins:
   - jekyll-feed
 
