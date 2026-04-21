@@ -1,10 +1,15 @@
 project:
   type: website
+  render:
+    - index.qmd
+    - 404.qmd
+    - github/index.qmd
+    - projects/index.qmd
+    - blogs/cs_328_writing_assignment/writing_assignment.ipynb
 
 website:
   title: "Yuvraj Rathod"
-  site-url: "https://yuvrajrathod.tech"
-  description: "Personal website of Yuvraj Rathod."
+  
   navbar:
     pinned: true
     background: "#f8f3ed"
