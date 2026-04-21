@@ -3,8 +3,6 @@ project:
   render:
     - index.qmd
     - 404.qmd
-    - github/index.qmd
-    - projects/index.qmd
     - blogs/cs_328_writing_assignment/writing_assignment.ipynb
 
 website:
@@ -12,21 +10,17 @@ website:
   
   navbar:
     pinned: true
-    background: "#f8f3ed"
-    foreground: "#1f1b16"
     left:
       - text: About
         href: /
-      - text: GitHub
-        href: /github/
-      - text: Projects
-        href: /projects/
       - text: Blog
         href: /blogs/cs_328_writing_assignment/
 
 format:
   html:
-    theme: default
-    css: styles.css
-    toc: false
     smooth-scroll: true
+    theme:
+      light: theme-light.scss
+      dark: theme-dark.scss
+    css: styles.css
+    highlight-style: github
