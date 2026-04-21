@@ -4,12 +4,14 @@
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
 freeze: true
 
-# Enable banner style title blocks
-title-block-banner: true
+# Disable execution for notebooks with unfinished code
+execute:
+  enabled: false
 
 format:
   html:
     toc: true
+    toc-depth: 2
     code-fold: show
     code-tools: true
     code-line-numbers: false
