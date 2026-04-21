@@ -1,0 +1,27 @@
+project:
+  type: website
+
+website:
+  title: "Yuvraj Rathod"
+  site-url: "https://yuvrajrathod.tech"
+  description: "Personal website of Yuvraj Rathod."
+  navbar:
+    pinned: true
+    background: "#f8f3ed"
+    foreground: "#1f1b16"
+    left:
+      - text: About
+        href: /
+      - text: GitHub
+        href: /github/
+      - text: Projects
+        href: /projects/
+      - text: Blog
+        href: /blogs/cs_328_writing_assignment/
+
+format:
+  html:
+    theme: default
+    css: styles.css
+    toc: false
+    smooth-scroll: true

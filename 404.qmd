@@ -1,0 +1,14 @@
+---
+title: "404"
+page-layout: full
+sitemap: false
+---
+
+::: {.not-found}
+<div class="eyebrow">Page not found</div>
+# 404
+
+The page you were looking for does not exist, or the link is out of date.
+
+[Back home](/){.btn .btn-primary}
+:::

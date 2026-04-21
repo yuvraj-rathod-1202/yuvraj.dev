@@ -1,0 +1,56 @@
+---
+title: "Yuvraj Rathod"
+subtitle: "B.Tech in Artificial Intelligence at IIT Gandhinagar"
+page-layout: full
+---
+
+::: {.page-shell}
+::: {.hero}
+::: {.hero-copy}
+<div class="eyebrow">Personal website</div>
+
+# Building with AI, systems, and practical software.
+
+I'm Yuvraj Rathod, an AI undergraduate at IIT Gandhinagar. This site collects my profile, projects, and public code in one place.
+
+<div class="button-row">
+[GitHub](/github/){.btn .btn-primary}
+[Projects](/projects/){.btn .btn-outline-primary}
+</div>
+:::
+
+::: {.hero-panel}
+<div class="panel-chip">Currently focused on</div>
+<div class="panel-title">AI, product-minded development, and clean interfaces</div>
+<div class="panel-copy">I like work that is useful, legible, and easy to maintain. The goal here is a small site with a clear route to each part of my work.</div>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <span class="stat-label">Role</span>
+    <span class="stat-value">Student builder</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">Location</span>
+    <span class="stat-value">IIT Gandhinagar</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">Public code</span>
+    <span class="stat-value">yuvraj-rathod-1202</span>
+  </div>
+</div>
+:::
+:::
+
+<div class="section-heading">Quick links</div>
+<div class="link-grid">
+<a class="content-card link-card" href="/github/">
+  <span class="link-card-title">GitHub</span>
+  <span class="link-card-copy">Open-source work, experiments, and the places where I keep shipping code.</span>
+</a>
+
+<a class="content-card link-card" href="/projects/">
+  <span class="link-card-title">Projects</span>
+  <span class="link-card-copy">A compact list of things I've built, with room for future case studies.</span>
+</a>
+</div>
+:::
