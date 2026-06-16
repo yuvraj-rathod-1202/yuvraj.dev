@@ -1,0 +1,100 @@
+---
+title: "Leaderboard-Pro"
+date: "2025-03-15"
+subtitle: "Feb 2025 - Mar 2025"
+description: "A competitive programming and GitHub stats aggregator using Django, React, Celery, and Redis for asynchronous scraping."
+categories:
+  - React
+  - Django
+  - PostgreSQL
+  - Celery
+  - Redis
+  - Open Source
+github: "https://github.com/yuvraj-rathod-1202/Leaderboard-Pro"
+live-demo: "https://leaderboardpro.vercel.app/"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/Leaderboard-Pro) | [Live Demo](https://leaderboardpro.vercel.app/)
+
+## Project Overview
+
+Leaderboard-Pro is an open-source stats tracking dashboard that aggregates ranking profiles from Codeforces, LeetCode, CodeChef, and active GitHub contributions. It enables academic clubs or developer communities to maintain centralized leaderboards, analyze submission trajectories, and host discussion boards.
+
+## Problem
+
+*   **Blocking HTTP Requests:** Scraping third-party user profiles directly inside request cycles triggers long page load delays.
+*   **Third-Party API Rate Limits:** Frequent profile checks from a single server IP trigger IP blocks or rate limits from target hosts.
+*   **Real-time Collaboration:** Static forums require manual updates to fetch new comment logs.
+
+## Features
+
+*   **Multi-Platform Aggregator:** Consolidates competitive programming ranks and active GitHub stats in a single user profile.
+*   **Asynchronous Scraping Worker:** Offloads blocking profile scrapes to Celery queues backed by Redis brokers.
+*   **Real-Time Collaborative Forums:** Implements community messaging channels using Socket.IO and WebSockets.
+*   **Interactive Visualization Charts:** Renders rating trajectories and submission statistics via Nivo and ApexCharts.
+*   **Stateless Token Auth:** Restricts Django backend APIs using DRF SimpleJWT validation.
+
+## Tech Stack
+
+*   **Frontend Client:**
+    *   React
+    *   Material UI (MUI)
+    *   Nivo / ApexCharts / Chart.js
+    *   Socket.IO-Client
+
+*   **Backend Engine:**
+    *   Django
+    *   Django REST Framework (DRF)
+    *   SimpleJWT / django-rest-knox
+    *   Socket.IO Server
+
+*   **Databases & Task Workers:**
+    *   PostgreSQL
+    *   MongoDB
+    *   Supabase
+    *   Celery
+    *   Redis
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Browser["User Browser (React Client)"] --> Gateway["Django API Gateway (SimpleJWT Auth)"]
+    Gateway --> DB["PostgreSQL (User profile & DB records)"]
+    Gateway --> Workers["Celery Workers (Scrapes third-party profile data)"]
+    Workers --> Redis["Redis Broker (Queue management)"]
+    Workers --> APIs["Third-Party API targets (Codeforces / GitHub / LeetCode)"]
+```
+
+## My Contributions
+
+*   Built backend scraping routines for competitive programming profiles.
+*   Configured Celery workers and Redis tasks queue parameters.
+*   Coded WebSockets discussion forums using Socket.IO backend layers.
+*   Integrated Nivo charts and ApexCharts to visualize user rating histories.
+*   Configured stateless token validations using SimpleJWT.
+
+## What I Learned
+
+*   Managing background task workers using Celery and Redis.
+*   Implementing WebSockets connection loops.
+*   Structuring hybrid SQL/NoSQL storage pipelines (PostgreSQL + MongoDB).
+*   Consuming and parsing unstructured REST API schemas.
+
+## Results
+
+*   Participated as an open-source contributor during FOSS Overflow (IIT Bhilai).
+*   Reduced API response times to under **0.05 seconds** by offloading scraping tasks.
+*   Successfully maintained live ranks dashboards for active users.
+
+## Future Work
+
+*   Support automated cron scheduling to update user statistics at off-peak hours.
+*   Add customizable ranking filters to support sub-groups tracking.
+*   Build a Chrome extension to auto-update student profile tags.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/Leaderboard-Pro](https://github.com/yuvraj-rathod-1202/Leaderboard-Pro)
+*   **Live Demo:** [https://leaderboardpro.vercel.app/](https://leaderboardpro.vercel.app/)

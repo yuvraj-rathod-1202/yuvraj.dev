@@ -1,5 +1,11 @@
 # options specified here will apply to all posts in this folder
 
+title: "CS 328: Data Science Writing Assignment"
+author: "Yuvraj Rathod"
+date: "2026-04-10"
+description: "An analysis and report on data science concepts and writing methodology completed for the Intro to Data Science course."
+categories: [Data Science, Academics, Writing]
+
 # freeze computational output
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
 freeze: true
@@ -15,4 +21,4 @@ format:
     code-fold: show
     code-tools: true
     code-line-numbers: false
-    code-copy: true
+    code-copy: true

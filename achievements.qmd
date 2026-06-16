@@ -1,0 +1,37 @@
+---
+title: "Achievements"
+---
+
+## Hackathons
+
+### **Runner-Up - upGrad CodeEd AI Hackathon Grand Finale (Mumbai)**
+*October 2025*
+
+*   Secured **Runner-Up** position nationwide in the grand finale of the CodeEd AI Hackathon.
+*   Pitched the product vision and business model for **[ElevateEd AI](projects/elevateed.qmd)** (a study kit compiler that targets student knowledge gaps) to a panel of industry leaders.
+*   **Technical Details:** Developed FastAPI-based in-memory parsing, automated recursive text summarization pipelines, and Firestore profile serialization. See **[ElevateEd AI Project Details](projects/elevateed.qmd)**.
+
+### **Second Prize - SocioHack Hackathon (IIT Gandhinagar)**
+*February 2025*
+
+*   Secured **Second Prize (Runner-up)** in the social problem-solving hackathon hosted by the Technical Council of IIT Gandhinagar in collaboration with Blithchron.
+*   Co-created **[3D-Map: Real-Time Event Navigation System](projects/map.qmd)**, an interactive, collaborative 3D spatial web app using React, MapTiler SDK, and Firebase.
+*   **Technical Details:** Implemented dynamic Leaflet GeoJSON layer mapping and client-side overlapping marker clustering algorithms. See **[3D Campus Map Project Details](projects/map.qmd)**.
+
+---
+
+## Open Source Contributions
+
+### **Contributor - FOSS Overflow**
+*February 2025 - March 2025*
+
+*   Successfully completed a 4-week open-source program organized by the Metis coding club, IIT Gandhinagar.
+*   Contributed to **[Leaderboard-Pro](projects/leaderboard_pro.qmd)**, a multi-platform stats aggregator dashboard tracking competitive programming profiles (Codeforces, LeetCode, CodeChef) and GitHub contributions.
+*   **Technical Details:** Engineered backend asynchronous scraping tasks using **Celery** and **Redis** to prevent HTTP request blocking. See **[Leaderboard-Pro Project Details](projects/leaderboard_pro.qmd)**.
+
+### **Contributor - Hacktoberfest 2024**
+*October 2024*
+
+*   Successfully completed the global open-source challenge.
+*   Submitted and merged 6 pull requests (exceeding the baseline requirement of 4) in public JavaScript and frontend web repositories.
+*   Demonstrated proficiency in Git, GitHub workflows, code reviews, and remote team collaborations.

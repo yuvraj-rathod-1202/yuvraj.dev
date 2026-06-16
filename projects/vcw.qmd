@@ -1,0 +1,90 @@
+---
+title: "Video Call Web Application (VCW)"
+date: "2025-01-01"
+subtitle: "Dec 2024"
+description: "A stateless P2P video calling application using React, WebRTC, and Socket.IO to enable zero-bandwidth server streaming."
+categories:
+  - React
+  - Node.js
+  - WebRTC
+  - Socket.IO
+github: "https://github.com/yuvraj-rathod-1202/vcw-frontend"
+live-demo: "https://vcw-frontend.vercel.app/"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/vcw-frontend) | [Live Demo](https://vcw-frontend.vercel.app/)
+
+## Project Overview
+
+VCW is a zero-install, peer-to-peer (P2P) video conferencing web app that runs directly inside modern browsers. By utilizing WebRTC for video and audio stream routing, all media transmission is handled directly between clients, reducing server-side operating bandwidth costs to zero. A lightweight Node.js/Socket.IO server acts as the signaling channel.
+
+## Problem
+
+*   **Server Bandwidth Costs:** Routing multimedia feeds from many concurrent rooms through a central server incurs high hosting costs.
+*   **Connection Drops during Screen Share:** Standard video setups drop calls or require reconnect loops when switching from camera feeds to screen shares.
+*   **CPU Overhead on Client:** Continuous React state updates during high-fps video stream renders consume excessive CPU, draining batteries.
+
+## Features
+
+*   **Stateless P2P Video Conferencing:** Direct client-to-client streaming powered by WebRTC.
+*   **Socket.IO Signaling Server:** Lightweight Node.js server relaying SDP offers, answers, and ICE candidate exchanges.
+*   **On-The-Fly Track Replacement:** Swaps camera feeds with screen sharing without disconnect loops.
+*   **Optimized Video Rendering:** Programmatically binds media streams to raw HTML elements, bypassing React update cycles to reduce CPU use.
+*   **Responsive Multi-Panel Swiping:** Touch-friendly layout utilizing Swiper.js to swap between controls and grids.
+*   **Firebase Authentication:** Optional credentials verification protecting room access permissions.
+
+## Tech Stack
+
+*   **Frontend Web App:**
+    *   React 19
+    *   WebRTC API (RTCPeerConnection, MediaStream)
+    *   Swiper.js
+    *   TailwindCSS
+
+*   **Signaling & Hosting:**
+    *   Node.js
+    *   Express.js
+    *   Socket.IO
+    *   Firebase Auth
+    *   Vercel (Deployment)
+
+## Architecture
+
+```{mermaid}
+graph LR
+    A["Client A (React / WebRTC)"] <-->|Signaling: SDP/ICE via Socket.IO| B["Client B (React / WebRTC)"]
+    A <-->|Direct Peer-to-Peer Media Stream| B
+```
+
+## My Contributions
+
+*   Coded the WebRTC connection hooks managing ICE candidate listeners.
+*   Developed the Node.js Socket.IO signaling server routing connection details.
+*   Implemented track-swapping logic via `replaceTrack` APIs supporting screen sharing.
+*   Designed the programmatically updated video stream DOM bindings.
+*   Styled the swipe layout using Swiper.js and Tailwind CSS.
+
+## What I Learned
+
+*   WebRTC protocols (SDP offer/answer, ICE candidates, STUN/TURN traversal).
+*   Real-time signaling setups using WebSockets and Socket.IO.
+*   DOM manipulation practices to bypass React component lags.
+*   Managing media stream track parameters.
+
+## Results
+
+*   Successfully established direct P2P connections between remote clients.
+*   Reduced server-side streaming bandwidth consumption to zero.
+*   Maintained steady framerates and lower CPU overhead on client devices.
+
+## Future Work
+
+*   Integrate a TURN server configuration (using coturn) to bypass symmetric NAT firewalls.
+*   Support Selective Forwarding Unit (SFU) architectures for larger group calls.
+*   Add end-to-end encryption (E2EE) using WebRTC insertable streams.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/vcw-frontend](https://github.com/yuvraj-rathod-1202/vcw-frontend)
+*   **Live Demo:** [https://vcw-frontend.vercel.app/](https://vcw-frontend.vercel.app/)

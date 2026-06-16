@@ -1,0 +1,98 @@
+---
+title: "Grading Management System (GMS)"
+date: "2026-05-01"
+subtitle: "Dec 2025 - May 2026"
+description: "A microservices-based grading and course management platform with FastAPI, Next.js, MySQL, and RabbitMQ."
+categories:
+  - FastAPI
+  - React
+  - Next.js
+  - MySQL
+  - RabbitMQ
+  - Kubernetes
+  - Microservices
+github: "https://github.com/yuvraj-rathod-1202/GMS"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/GMS)
+
+## Problem
+
+*   **Monolithic Scale Deficiencies:** Unified academic platforms struggle to isolate heavy analytics queries (e.g. grading curves) from simple login and enrollment requests.
+*   **Grading Consistency:** Instructors require flexible grading policy engines supporting dynamic weights, categories, and custom formulas (e.g., best N assessments).
+*   **Security Scopes:** Restricted operations like course creation, marks edits, and policy changes must be securely verified across multiple network layers.
+
+## Features
+
+*   **API Gateway Routing:** Exposes a unified API surface, managing statless JWT validation, CORS configurations, and rate limiting.
+*   **Flexible Grading Policy Engine:** Defines policy components and rules dynamically stored as database JSON structures.
+*   **Course Lifecycle Management:** Supports course creation, student enrollment checks, and TA assignments.
+*   **Assessment & Marks POS:** Instructors can create assessments, input marks, publish drafts, and retrieve student curves.
+*   **Asynchronous Processing:** Offloads heavy notifications and analytics curves computation to background workers.
+*   **Container Orchestration:** Deployed as containerized replicas supporting rolling updates and volume mounts.
+
+## Tech Stack
+
+*   **Frontend:**
+    *   Next.js 15
+    *   React 19
+    *   Zustand
+    *   TailwindCSS
+
+*   **Backend Services:**
+    *   FastAPI (Python 3.10)
+    *   Uvicorn
+    *   httpx (Async Client)
+
+*   **Databases & Broker:**
+    *   MySQL (Per-service database pattern)
+    *   RabbitMQ
+
+*   **Orchestration & Tooling:**
+    *   Docker
+    *   Kubernetes Manifests (StatefulSets, Deployments, ConfigMaps)
+    *   PyJWT, bcrypt
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Client["Client (Next.js SPA)"] -->|JWT / Google OAuth| Gateway["FastAPI API Gateway (CORS, Rate Limiting)"]
+    Gateway --> Auth["Auth Service<br>(JWT Sign/Verify - MySQL Auth DB)"]
+    Gateway --> Courses["Courses Service<br>(Enrollments & Roles - MySQL Course DB)"]
+    Gateway --> Marks["Marks Service<br>(Assessments & Marks - MySQL Marks DB)"]
+    Gateway --> Policy["Policy Service<br>(Grading DSL Weights - MySQL Policy DB)"]
+    Gateway --> Analytics["Analytics Service<br>(Background queues - RabbitMQ Broker)"]
+```
+
+## My Contributions
+
+*   Architected the FastAPI Gateway service, routing requests and enforcing rate-limiting middleware.
+*   Designed multi-tenant MySQL schemas with relational constraints mapping courses, policies, and marks.
+*   Built security authorization scopes (`verifyInstructorOrTa`, `verifyRoleInCourse`) to block illegal mutations.
+*   Containerized all services using Dockerfiles and authored Kubernetes Deployments and StatefulSets.
+*   Integrated Zustand client state and Google OAuth popups on the Next.js frontend.
+
+## What I Learned
+
+*   Designing microservices around a database-per-service isolation model.
+*   Setting up Kubernetes manifests, StatefulSets, and ConfigMaps.
+*   Implementing stateless JWT authentication across modular services.
+*   Configuring asynchronous task queues using RabbitMQ.
+
+## Results
+
+*   Successfully separated concerns across 6 microservices with independent databases.
+*   Maintained low request latencies using non-blocking asynchronous Python structures.
+*   Built a flexible policy schema mapping complex rules as JSON columns.
+
+## Future Work
+
+*   Add a Redis caching layer for read-heavy course and published marks endpoints.
+*   Implement symmetric database replication topologies for high availability.
+*   Introduce OpenTelemetry tracing to map request lifetimes across microservices.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/GMS](https://github.com/yuvraj-rathod-1202/GMS)

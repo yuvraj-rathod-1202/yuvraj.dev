@@ -1,0 +1,45 @@
+---
+title: "Experience & Leadership"
+---
+
+## Professional Experience
+
+### **Cyber Centre of Excellence, Gujarat Police**
+**Software Engineering Intern**  
+*May 2026 - Present* | *Gandhinagar, Gujarat*
+
+Working as a backend and systems architect on the **Integrated Criminal Intelligence & Investigation Platform (ICIIP)**, a mission-critical enterprise system designed for secure, multi-tier suspect tracking and database audits across the state's police hierarchy.
+
+#### **Key System Contributions**
+*   **Two-Step Multi-Factor Authentication (MFA)**
+*   **Hierarchical Scoped Authorization (RBAC + ABAC)**
+*   **Data Archival & Retention Pipeline**
+*   **Distributed Rate Limiting Middleware**
+*   **Personnel Onboarding Gates**
+
+## Leadership & Positions of Responsibility
+
+### **TEDxIITGandhinagar**
+**Technical Coordinator & Tech Lead**  
+*May 2025 - April 2026*
+
+Managed the end-to-end development, deployment, and operation of the organization's digital web infrastructure, serving over 1,500 monthly page views and replacing vendor services with custom software.
+
+#### **Key Technical Contributions**
+*   **Secure Merchandise POS Pipeline ([Project Details](projects/tedxiitgandhinagar.qmd)):** Designed a checkout pipeline integrating the **Razorpay Payment Gateway** with a Node.js backend. Implemented HMAC-SHA256 signature verification on asynchronous webhooks to confirm and log orders.
+*   **TEDxPEDITION Real-Time Mobile Web App ([Project Details](projects/tedxiitgandhinagar.qmd)):** Designed a responsive React web portal for a campus-wide treasure hunt. Integrated location QR-code checks and Firebase Firestore queries to calculate live scores and render real-time leaderboards.
+*   **Custom Recruitment Platform:** Built a multi-step candidate onboarding portal utilizing **Firebase Authentication** (Google OAuth 2.0) and serverless Google Apps Script triggers to register and screen 200+ applications.
+*   **Push Notifications Channel:** Integrated the Firebase Cloud Messaging (**FCM**) SDK and service workers to support direct background browser push notifications.
+
+***
+
+### **Metis (Web & App Development Club, IIT Gandhinagar)**
+**Core Committee Member**  
+*August 2025 - April 2026*
+
+Actively promoted software engineering, coding culture, and project development on campus by coordinating learning bootcamps and mentoring junior students.
+
+#### **Key Contributions**
+*   **Developer Mentorship:** Mentored 30+ junior club members.
+*   **React Workshop Lead:** Conducted hands-on tutorials teaching junior students React state management, component lifecycle, and REST API integration.
+*   **Hackathon Convener:** Coordinated and executed coding challenges on campus to foster collaborative development.

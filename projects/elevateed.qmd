@@ -1,0 +1,107 @@
+---
+title: "ElevateEd AI"
+date: "2025-11-01"
+subtitle: "Oct 2025"
+description: "An AI-powered educational backend transforming multi-format documents and videos into personalized, adaptive study kits."
+categories:
+  - FastAPI
+  - Gemini
+  - Firebase
+  - PyMuPDF
+  - FFmpeg
+  - Hackathon
+github: "https://github.com/yuvraj-rathod-1202/CodeEd-Backend"
+live-demo: "https://elevate-ed-phi.vercel.app/"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/CodeEd-Backend) | [Live Demo](https://elevate-ed-phi.vercel.app/)
+
+## Project Overview
+
+ElevateEd AI is an educational technology backend that transforms learning assets (PDFs, DOCX, PPTX, YouTube links, and media files) into structured study packages. It generates summaries, flashcards, concept maps, and adaptive quizzes. By tracking historical submissions in Firestore, it personalizes quizzes to target user knowledge gaps.
+
+## Problem
+
+*   **Learning Content Fragmentation:** Academic materials are scattered across slides, textbooks, and videos, making cohesive revision difficult.
+*   **Static Quizzing:** Standard test portals serve identical questions to all users, failing to target individual knowledge weaknesses.
+*   **Scraping and Ingestion Blocks:** Scraping YouTube transcripts and processing large multi-format files frequently hits rate limits or disk space constraints.
+
+## Features
+
+*   **In-Memory Document Parser:** Extracts text from PDFs (via PyMuPDF), Word files, and PowerPoint presentations using in-memory byte streams, bypassing local disk storage.
+*   **Adaptive Quiz Personalization:** A Firestore-backed scoring pipeline that targets **70%** of quiz questions towards topics where the student has historically underperformed.
+*   **Video Transcription Pipeline:** System-level FFmpeg bindings that extract audio tracks from media uploads, resample to 16kHz mono WAV, and transcribe speech.
+*   **Anti-Bot YouTube Scraping:** Rotates mobile user-agent headers and parses watch-page HTML regex to bypass YouTube rate-limiting blocks.
+*   **Recursive Document Chunking:** Splits large text blocks along sentence boundaries under 25,000 characters, summarizing chunks and recursively merging them via Gemini.
+*   **Concept Map Generation:** Prompts Gemini to return parent-child topic links formatted as JSON arrays to render flowcharts.
+
+## Tech Stack
+
+*   **Generative AI:**
+    *   Google GenAI SDK
+    *   Gemini 2.0 Flash
+
+*   **Backend & Database:**
+    *   FastAPI (Python)
+    *   Firebase Admin SDK
+    *   Firestore
+
+*   **Media & Text Processing:**
+    *   PyMuPDF
+    *   python-docx
+    *   python-pptx
+    *   BeautifulSoup4
+    *   SpeechRecognition
+    *   pydub
+    *   FFmpeg (System-level bindings)
+
+*   **Deployment:**
+    *   Docker
+    *   Docker Compose
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Upload["User Document/Video Upload"] --> Backend["FastAPI Backend (In-Memory Ingestion)"]
+    Backend --> Docs["Documents (PyMuPDF / docx / pptx) -> Text Stream"]
+    Backend --> Media["Media (FFmpeg extraction) -> Speech-to-Text"]
+    Backend --> YouTube["YouTube Links (Header bypass) -> Transcript Scraper"]
+    Docs --> Gemini["Gemini 2.0 Flash (Recursive Summary & JSON quiz structure)"]
+    Media --> Gemini
+    YouTube --> Gemini
+    Gemini --> DB["Firestore Database<br>(Persist study package & Quiz performance logs)"]
+```
+
+## My Contributions
+
+*   Co-developed the FastAPI backend server and routes.
+*   Coded the in-memory text extraction streams for PDF, DOCX, and PPTX files.
+*   Designed the Firestore scoring pipeline targeting student knowledge gaps.
+*   Built the FFmpeg audio extraction and Speech-to-Text transcription parser.
+*   Wrote the recursive text summarization algorithm handling large context books.
+
+## What I Learned
+
+*   Orchestrating multi-model Generative AI pipelines using the Google GenAI SDK.
+*   Managing system-level multimedia conversions (FFmpeg) inside Python.
+*   Bypassing anti-scraping blocks through header rotation.
+*   Structuring serverless backend workflows using Firebase.
+
+## Results
+
+*   **Runner-Up nationwide** at the upGrad CodeEd AI Hackathon Grand Finale in Mumbai.
+*   Pitched the product vision to Ronnie Screwvala and upGrad's executive panel.
+*   Processed files and generated study kits in under 12 seconds using asynchronous pipelines.
+
+## Future Work
+
+*   Support PDF layout parsing using vision models to preserve tables and diagrams.
+*   Implement vector-based semantic search across user documents history.
+*   Add collaborative real-time study rooms via WebSockets.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/CodeEd-Backend](https://github.com/yuvraj-rathod-1202/CodeEd-Backend)
+*   **Live Demo:** [https://elevate-ed-phi.vercel.app/](https://elevate-ed-phi.vercel.app/)

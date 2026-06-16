@@ -1,0 +1,107 @@
+---
+title: "TEDxIITGandhinagar"
+date: "2025-10-15"
+subtitle: "May 2025 - Apr 2026"
+description: "A unified suite of digital solutions including React/Next.js event applications, real-time treasure hunt services, and a secure Express.js payment and notification backend."
+categories:
+  - Next.js
+  - React
+  - Node.js
+  - Firebase
+  - Payments
+  - Full-Stack
+live-demo: "https://tedxiitgandhinagar.com"
+
+---
+
+[Live Demo](https://tedxiitgandhinagar.com)
+
+## Project Overview
+
+Serving as the digital coordinator for the annual TEDxIITGandhinagar events, this system combines high-fidelity frontend web applications (for the 2025 and 2026 editions) with a secure, centralized payment and notification backend. It handles attendee registration, speaker portfolio displays, recruitment campaigns, live gamified treasure hunt scoring, and transactional e-commerce checkout operations.
+
+## Problem
+
+Organizing a large-scale event like TEDx involves complex coordination across multiple channels. Volunteer recruitment, attendee messaging, merchandise storefront sales, and payment flows are frequently disjointed, resulting in fragmented dashboards, data siloing, and vulnerability to payment signature tampering or invoice spoofing. Furthermore, rendering highly interactive portfolios and heavy assets can easily compromise page loading speed, especially on mobile devices.
+
+I wanted to develop a unified, high-integrity digital ecosystem that bridges fast rendering (Next.js/React) with a cryptographically secure, rate-limited communication and e-commerce backend (Node.js/Express/Firebase/Razorpay).
+
+## Features
+
+- **Next.js Hybrid Rendering (2026 Edition):** Employs SSG for lightning-fast speaker pages and SSR for e-commerce checkout.
+- **Serverless BaaS Architecture (2025 Edition):** Uses Firebase Firestore and Auth as a direct service layer, eliminating server overhead for time-bound events.
+- **Authenticated E-Commerce Storefront:** Integrates Google Sign-In with cart context tracking and real-time inventory verification.
+- **Cryptographic Payment Gateway:** Relays Razorpay SDK checkout loops, validating HMAC-SHA256 signatures server-side.
+- **Multi-Channel Notification Broadcaster:** Batches browser push alerts via Firebase Cloud Messaging (FCM) and schedules transactional HTML emails using Nodemailer.
+- **Progressive Application Forms:** Captures multi-step recruitment inputs with input validations and state auto-saving.
+- **Hardware-Accelerated Web Animations:** Smooth layouts utilizing GSAP scroll triggers, Framer Motion transitions, and Lenis scroll hooks.
+
+## Tech Stack
+
+*   **Frontend Client:**
+    *   Next.js 15 (App Router)
+    *   React 18 / 19
+    *   TailwindCSS
+    *   GSAP / Framer Motion
+    *   Lenis Scroll
+
+*   **Backend API & Services:**
+    *   Node.js / Express.js
+    *   Firebase Admin SDK (FCM & Firestore)
+    *   Razorpay SDK
+    *   Nodemailer (SMTP)
+    *   Google Apps Script
+
+*   **Security:**
+    *   Helmet / CORS
+    *   Express-Rate-Limit
+    *   Crypto (HMAC-SHA256)
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Browser["User Web Browser (Next.js / React)"] --> Portfolios["Public Portfolios<br>(SSG Speaker pages)"]
+    Browser --> Recruitment["Recruitment<br>(Multi-Step Wizard)"]
+    Browser --> Cart["E-Commerce Cart<br>(React Context state)"]
+    Portfolios --> Scroll["Local GSAP/Lenis<br>Smooth Scroll"]
+    Recruitment --> Script["Google Apps Script<br>& Firebase Auth"]
+    Cart --> Gateway["Next.js API Gateway /<br>Express Security Layer<br>(Rate Limit / Helmet)"]
+    Gateway --> Backend["Express Backend<br>(FCM/Nodemailer/Razorpay)"]
+    Backend --> APIs["Firestore / Razorpay API"]
+```
+
+## My Contributions
+
+- Designed and built the multi-step team recruitment application forms.
+- Configured Firebase Authentication structures and Firestore e-commerce schemas.
+- Programmed the Next.js App Router routing structures and e-commerce shopping cart context.
+- Developed the Node.js/Express.js backend API routing, integrating Nodemailer and Razorpay SDKs.
+- Coded server-side payment verification webhooks using HMAC-SHA256 signature hashes.
+- Built the FCM multicast push notification worker routines.
+- Created scroll-based UI animation triggers using GSAP, Framer Motion, and Lenis scroll integrations.
+
+## What I Learned
+
+- Designing hybrid web architectures combining Next.js Server Components with client-side state.
+- Structuring secure e-commerce integrations using BaaS and standalone Express engines.
+- Applying cryptographic validation constraints to prevent financial and pricing fraud.
+- Managing asynchronous, network-heavy push notifications in single-threaded runtimes.
+- Orchestrating high-performance animations (GSAP, Lenis, Framer Motion).
+
+## Results
+
+- Supported 1,500+ monthly page views securely during active event periods.
+- Processed recruitment applications and merchandise checkouts with zero payment failures.
+- Rendered static speaker pages with sub-second page loads via Next.js SSG.
+
+## Future Work
+
+- Transition codebase files fully to TypeScript for enhanced developer typing safety.
+- Cache frequently accessed Firestore device tokens in a Redis instance.
+- Wrap the Express.js notification routing services in serverless functions (e.g., AWS Lambda).
+- Implement an administrative portal for dynamic inventory adjustments and recruitment application review.
+
+## Links
+
+*   **Live Demo:** [https://tedxiitgandhinagar.com](https://tedxiitgandhinagar.com)

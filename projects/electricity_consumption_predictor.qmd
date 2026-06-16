@@ -1,0 +1,95 @@
+---
+title: "Electricity Consumption Predictor"
+date: "2025-06-15"
+subtitle: "May 2025"
+description: "A modular, design-pattern-driven machine learning framework to ingest smart-meter readings and predict aggregate daily household power consumption."
+categories:
+  - Python
+  - scikit-learn
+  - Time-Series
+  - Machine Learning
+github: "https://github.com/yuvraj-rathod-1202/Electricity_Consumption_Predictor"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/Electricity_Consumption_Predictor)
+
+## Project Overview
+
+The Electricity Consumption Predictor is an end-to-end time-series regression pipeline designed to predict residential energy usage. Utilizing software engineering best practices, it Aggregates and clean 2M+ high-frequency telemetry readings, imputes missing records, filters out anomalies via statistical interquartile ranges, and fits non-linear regressors (including Random Fourier Features and Multi-Layer Perceptrons) to assist utility companies in grid load management.
+
+## Problem
+
+Household electricity consumption is highly non-linear, presenting sudden peaks due to human behavior and appliance usage. Traditional load forecasting models (like ARIMA) assume constant variance and linear relationships, failing to capture sudden spikes or long-term seasonal variance.
+
+I wanted to design a modular, object-oriented forecasting pipeline that compares simple parametric curves against high-dimensional non-linear mapping methods (RFF kernel approximations, MLPs) under strict data leakage guards.
+
+## Features
+
+- **Strategy Design Pattern Pipeline:** Encapsulates data ingestion, missing value imputation, outlier filtering, and feature transformations in interchangeable strategy classes.
+- **Robust Telemetry Aggregation:** Downsamples over 2 million raw minute-level measurements into daily aggregates to capture macro consumption patterns.
+- **IQR-Based Outlier Removal:** Truncates anomalous power spikes to stabilize regression models.
+- **Multi-Model Regression Sandbox:** Benchmarks Linear Regression, Polynomial Regression, Gaussian Radial Basis Functions (RBF), Random Fourier Features (RFF), and Multi-Layer Perceptrons (MLP).
+- **Random Fourier Feature Projections:** Maps inputs to a 12,000-dimensional space via scikit-learn's `RBFSampler` to approximate Gaussian RBF kernels in linear time.
+- **Standard Scaling Data Guard:** Fits scaling parameters exclusively on the training partition to prevent test set data leakage.
+
+## Tech Stack
+
+*   **ETL & Processing:**
+    *   Python
+    *   Pandas
+    *   NumPy
+
+*   **Modeling & Benchmarking:**
+    *   scikit-learn (RBFSampler, MLPRegressor, LinearRegression)
+    *   Matplotlib
+    *   Seaborn
+    *   Zipfile
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Zip["raw zip archive"] --> Extractor["ZipDataExtractor"]
+    Extractor --> Text["household_power_consumption.txt"]
+    Text --> Ingest["Ingestor Strategy Pattern (CSV/Text)"]
+    Ingest --> Process["initial_process.py (Daily Aggregation)"]
+    Process --> Missing["missing_value_handling.py (Mean Impute)"]
+    Missing --> Outliers["outliers_detection.py (IQR Filtering)"]
+    Outliers --> Features["feature_engineering.py (Standard Scaler)"]
+    Features --> Sandbox["Regression Sandbox<br>(Linear / Poly / RFF / MLP)"]
+    Sandbox --> Predict["Predicts Daily Active Power"]
+```
+
+## My Contributions
+
+- Programmed the Strategy Design Pattern for data ingestion, missing value imputation, outlier detection, and feature transformation.
+- Built the daily aggregation downsampling processor reducing the dataset size.
+- Configured data splitting wrappers isolating training and testing partitions.
+- Benchmarked Linear, Polynomial, Gaussian RBF, RFF, and MLP regressors.
+- Conducted hyperparameter grid sweeps to resolve bias-variance tradeoffs across polynomial degrees and Fourier projection components.
+- Audited the codebase to identify a scaling return bug and local absolute paths.
+
+## What I Learned
+
+- Structuring modular machine learning pipelines using the Strategy Design Pattern.
+- Approximating infinite-dimensional radial basis function kernels using Random Fourier Features.
+- Managing data splits and scaling configurations to prevent leakage.
+- Analyzing bias-variance tradeoffs via parametric sweeps.
+
+## Results
+
+- Downsampled 2M+ records into a stable 1,399-row daily dataset.
+- Random Fourier Features (RFF) regression achieved a training MSE of **98,803.99 kW²**.
+- Deep MLP Regressor achieved the best generalization with a test MSE of **140,600.85 kW²**, outperforming baseline Linear Regression (298,697.81 kW²) by over 50%.
+
+## Future Work
+
+- Fix the Min-Max scaling method return bug in the feature engineering module.
+- Transition pipeline to distributed engines (PySpark or Dask) to scale to millions of active meters.
+- Add model serialization utilities using joblib.
+- Wrap model inference in a FastAPI web container.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/Electricity_Consumption_Predictor](https://github.com/yuvraj-rathod-1202/Electricity_Consumption_Predictor)

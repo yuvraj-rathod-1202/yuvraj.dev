@@ -1,0 +1,94 @@
+---
+title: "Car Purchase Classification"
+date: "2025-08-10"
+subtitle: "Jun 2025"
+description: "A machine learning pipeline using the Strategy Design Pattern to preprocess customer datasets and predict vehicle purchasing choices."
+categories:
+  - Python
+  - scikit-learn
+  - Random-Forest
+  - Customer-Analytics
+  - Machine Learning
+github: "https://github.com/yuvraj-rathod-1202/Car_Purchase_Classification"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/Car_Purchase_Classification)
+
+## Project Overview
+
+Car Purchase Classification is an analytics pipeline built in Python to identify vehicle buyer intent. Structured using the Strategy Design Pattern, the pipeline extracts customer demographics and financial details, processes missing records, drops redundant features, runs IQR-based outlier filters, and feeds clean data into an optimized Random Forest Classifier to guide targeted marketing campaigns.
+
+## Problem
+
+Auto dealerships waste significant marketing budgets running broad campaigns that suffer from low conversion rates. Rules-based demographic targeting or manual lead scoring systems fail to capture non-linear relationships and multi-feature interactions, requiring constant manual threshold tuning.
+
+I wanted to develop a modular, pattern-driven machine learning pipeline that automatically learns customer buying behavior boundaries and scales clean preprocessing strategies.
+
+## Features
+
+- **Strategy Design Pattern Preprocessing:** Encapsulates feature scaling, categorical transformations, and outlier detection in decoupled strategy classes.
+- **Categorical One-Hot Encoding:** Maps gender strings into binary indicators while dropping the first category to avoid multicollinearity.
+- **IQR-Based Outlier Detection:** Filters anomalous values dynamically using statistical interquartile bounds.
+- **GridSearch Cross-Validation:** Optimizes 192 hyperparameter combinations across bagging forest configurations.
+- **Feature Importance Profiling:** Computes Mean Decrease in Impurity (MDI) splits to rank predictive parameters.
+- **Confusion Matrix Diagnostics:** Calculates precision, recall, and ROC-AUC metrics to analyze model failure edge cases.
+
+## Tech Stack
+
+*   **Processing & Pipeline:**
+    *   Python
+    *   Pandas
+    *   NumPy
+
+*   **Modeling & Tuning:**
+    *   scikit-learn (RandomForestClassifier, GridSearchCV, OneHotEncoder)
+    *   Matplotlib
+    *   Seaborn
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Zip["raw archive.zip"] --> Extractor["ZipDataExtractor"]
+    Extractor --> CSV["car_data.csv"]
+    CSV --> Ingest["DataFrameIngest (validates CSV)"]
+    Ingest --> Encode["OneHotEncoder on Gender"]
+    Encode --> Outliers["IQR Outlier Masking"]
+    Outliers --> Split["SimpleTrainTestSplit (80/20 isolation)"]
+    Split --> Forest["GridSearchCV RandomForest"]
+    Forest --> Predict["Predicted Purchase Class (0/1)"]
+```
+
+## My Contributions
+
+- Programmed the modular data ETL pipeline using the Strategy Design Pattern.
+- Developed one-hot encoding feature transformation components.
+- Engineered the row-wise IQR outlier detection filtering rules.
+- Coded the Random Forest hyperparameter grid search sweeps.
+- Generated diagnostic performance reports including precision-recall curves, confusion matrices, and ROC-AUC computations.
+- Audited the pipeline code to resolve paths and outlier masking.
+
+## What I Learned
+
+- Designing modular, clean-code ML architectures using OOP design patterns.
+- Balancing precision and recall tradeoffs to guide targeted marketing spend.
+- Analyzing tree split impurity metrics (Gini vs. Entropy).
+- Recognizing and debugging database index constraints in outlier masks.
+
+## Results
+
+- Achieved a classification accuracy of **91.00%** on the test set.
+- Reached a discriminative ROC-AUC score of **0.969**.
+- Mapped global feature importances, discovering that Annual Salary (49.93%) and Age (49.38%) represent **99.3%** of the model's split decisions, while Gender is negligible (0.69%).
+
+## Future Work
+
+- Refactor absolute paths in `pipeline.py` to relative configurations.
+- Serialize trained models and scale pipelines using joblib.
+- Build a REST endpoint using FastAPI to serve model predictions in real-time.
+- Deploy parallel execution configurations (`n_jobs=-1`) to accelerate hyperparameter tuning.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/Car_Purchase_Classification](https://github.com/yuvraj-rathod-1202/Car_Purchase_Classification)

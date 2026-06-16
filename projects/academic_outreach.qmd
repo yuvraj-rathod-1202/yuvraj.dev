@@ -1,0 +1,105 @@
+---
+title: "Academic Agent Outreach"
+date: "2025-05-01"
+subtitle: "May 2025 - Jul 2025"
+description: "A RAG-powered email scheduling and professor matching platform combining web scraping, semantic search, and LLM personalization."
+categories:
+  - React
+  - FastAPI
+  - Gemini
+  - LangChain
+  - SentenceTransformers
+github: "https://github.com/yuvraj-rathod-1202/academic-agent-outreach"
+live-demo: "https://academic-agent-outreach.vercel.app/"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/academic-agent-outreach) | [Live Demo](https://academic-agent-outreach.vercel.app/)
+
+## Project Overview
+
+Academic Agent Outreach is an AI-driven outreach dashboard designed to match students with academic faculty based on research interests. It crawls university profiles in real-time, extracts publication records using LangChain and Gemini, drafts highly contextual cold emails referencing specific papers, and schedules delivery using the Gmail API.
+
+## Problem
+
+*   **advisor Search Friction:** Manually crawling dozens of faculty profiles to match research interests is time-consuming.
+*   **Generic Emails:** Generic outreach emails are frequently ignored; successful emails must show a clear understanding of the professor's recent publications.
+*   **Auth State in Background Tasks:** Background schedulers running without active sessions fail when access tokens expire.
+
+## Features
+
+*   **Dynamic RAG Scraper:** Scrapes search indexes using SerpAPI and extracts faculty pages via BeautifulSoup, cleaning HTML script/style noise.
+*   **Information Extraction (LLM RAG):** Leverages LangChain and `gemini-2.0-flash` to extract structured publications lists and ongoing projects from unstructured text.
+*   **Semantic Similarity Matching:** An offline module encoding student details and faculty profiles into 384D vectors using SentenceTransformers (`all-MiniLM-L6-v2`).
+*   **Asynchronous Email Scheduler:** Integrates APScheduler to monitor scheduled emails and execute sends via the Gmail API.
+*   **Google OAuth Refresh Loop:** Automatically exchanges offline refresh tokens for active access credentials prior to background scheduling tasks.
+*   **Profile Feature Serializer:** Compiles student academic data (GPA, courses, projects) into structured text context blocks to guide personalization.
+
+## Tech Stack
+
+*   **Frontend:**
+    *   React
+    *   TypeScript
+    *   TailwindCSS
+    *   shadcn-ui
+
+*   **Backend API:**
+    *   FastAPI (Python)
+    *   LangChain
+    *   Google Gemini API
+    *   SerpAPI
+    *   APScheduler
+
+*   **Vector Matching:**
+    *   SentenceTransformers (all-MiniLM-L6-v2)
+    *   NumPy / Scikit-Learn
+
+*   **Database & Auth:**
+    *   Firebase Firestore
+    *   Google OAuth 2.0 / Gmail API
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Query["User Query (React Dashboard)"] --> Controller["FastAPI API Controller"]
+    Controller --> S1["Step 1: Query Gemini -> Predict matching professor names"]
+    Controller --> S2["Step 2: SerpAPI -> Fetch profile links"]
+    Controller --> S3["Step 3: BeautifulSoup -> Extract page text"]
+    Controller --> S4["Step 4: LangChain/Gemini -> Parse structured publications"]
+    S4 --> Draft["Personalized Email Draft"]
+    Draft --> Queue["Schedule queue (APScheduler + Firestore)"]
+    Queue -->|Refreshes Google OAuth token| Send["Gmail API Send"]
+```
+
+## My Contributions
+
+*   Built the dynamic scraping and text cleaning pipeline using BeautifulSoup and SerpAPI.
+*   Developed the LangChain information extraction chain parsing unstructured profiles.
+*   Engineered the SentenceTransformer matching module using weighted linear combinations of cosine similarities.
+*   Created the background email queue inside FastAPI using APScheduler and Gmail API integrations.
+*   Implemented the Google OAuth refresh loop logic in Firestore.
+
+## What I Learned
+
+*   Structuring Retrieval-Augmented Generation (RAG) pipelines over unstructured HTML.
+*   Encoding and comparing semantic vectors using transformer models.
+*   Configuring background cron-like tasks inside ASGI servers.
+*   Operating OAuth 2.0 credential exchanges for offline API access.
+
+## Results
+
+*   **8-12 seconds** average response time for scraping Google, extracting details, and generating personalized drafts.
+*   Maintained 100% token refresh reliability across scheduled cron sends.
+*   Vector matching results aligned CS researchers with interdisciplinary projects accurately by weighting publications and interests over department names.
+
+## Future Work
+
+*   Pre-embed and cache thousands of faculty profiles in ChromaDB/FAISS to support sub-second query matching.
+*   Add multi-page PDF parsing to automatically extract student profiles from CV uploads.
+*   Build LangGraph agents to run double-check validation on email templates before delivery.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/academic-agent-outreach](https://github.com/yuvraj-rathod-1202/academic-agent-outreach)
+*   **Live Demo:** [https://academic-agent-outreach.vercel.app/](https://academic-agent-outreach.vercel.app/)

@@ -1,0 +1,94 @@
+---
+title: "3D Map: Real-Time Event Navigation System"
+date: "2025-03-01"
+subtitle: "Feb 2025"
+description: "A WebGL 3D campus navigation portal integrating live geolocation tracking, OpenRouteService routing, and Firebase backends."
+categories:
+  - React
+  - MapTiler
+  - OpenRouteService
+  - Firebase
+  - Leaflet
+  - Hackathon
+github: "https://github.com/yuvraj-rathod-1202/3D-Map"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/3D-Map)
+
+## Project Overview
+
+3D Map is an interactive, vector-based geospatial web portal built for campus discovery and event navigation at IIT Gandhinagar. Leveraging WebGL rendering and Leaflet mappings, the platform renders 3D building profiles, clusters localized event listings, tracks user paths in real-time, and calculates driving pathways dynamically.
+
+## Problem
+
+*   **Campus Event Navigation:** Event maps are typically static PDFs, preventing real-time discovery of campus venues.
+*   **Performance overhead:** Frequent client re-renders during GPS coordinate polling degrade web application speeds.
+*   **Coordinate Overlap:** Multiple booths or events located at the same building overlap pins on map overlays, hiding entries.
+
+## Features
+
+*   **WebGL 3D Building Canvas:** Renders detailed vector 3D structures and spatial maps of the campus using the MapTiler SDK.
+*   **Real-time Geolocation tracking:** Polls user location using the browser Geolocation API, moving paths references smoothly.
+*   **Routing & Directions Engine:** Integrates OpenRouteService to calculate driving or walking coordinates, rendering dynamic GeoJSON layers.
+*   **Overlapping Pins Clustering:** Grouping algorithm that aggregates pins at matching coordinates into a single expandable menu.
+*   **Serverless Datastore:** Firebase configuration managing event metadata, reviews, barriers, and user schedules.
+*   **Social Authentications:** Firebase Auth handling Google logins for access validations.
+
+## Tech Stack
+
+*   **Frontend Map:**
+    *   React 19
+    *   Vite
+    *   MapTiler SDK
+    *   Leaflet Maps
+    *   Vanilla CSS
+    *   Geolocation API
+
+*   **Backend Services:**
+    *   Firebase Auth
+    *   Firebase Firestore
+
+*   **Route Mapping API:**
+    *   OpenRouteService Directions API
+
+## Architecture
+
+```{mermaid}
+graph TD
+    GPS["User Browser Geolocation API"] -->|watchPosition coordinates| Client["React Client (Leaflet Layer)"]
+    Client --> Canvas["WebGL Canvas (MapTiler SDK)"]
+    DB["Firebase Firestore"] -->|Fetch active events| Client
+    API["OpenRouteService API"] -->|Fetch GeoJSON path| Canvas
+```
+
+## My Contributions
+
+*   Built the interactive MapTiler WebGL vector map canvas in React.
+*   Developed the programmatically updated geolocation tracking hooks.
+*   Integrated the OpenRouteService API mapping GeoJSON paths.
+*   Wrote the coordinate grouping algorithm clustering overlapping event pins.
+*   Configured the Firebase Auth and Firestore database schemas.
+
+## What I Learned
+
+*   Rendering complex 3D vector canvases inside web browsers.
+*   Optimizing Leaflet map layers to prevent memory leaks during GPS updates.
+*   Handling GeoJSON routing arrays.
+*   Structuring NoSQL document databases in Firebase.
+
+## Results
+
+*   Secured **Second Prize (Runner-up)** in the SocioHack Hackathon at IIT Gandhinagar.
+*   Calculated and rendered routing shapes under **0.5 seconds**.
+*   Clustered overlapping booths correctly into a single click menu.
+
+## Future Work
+
+*   Support offline mapping profiles for regions with weak cell signals.
+*   Integrate indoor navigation blueprints inside campus facilities.
+*   Add notifications alerts when approaching saved event pins.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/3D-Map](https://github.com/yuvraj-rathod-1202/3D-Map)

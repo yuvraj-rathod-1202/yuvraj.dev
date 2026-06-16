@@ -1,0 +1,96 @@
+---
+title: "Narrative Page Sequencing (The Archivist's Puzzle)"
+date: "2026-04-15"
+subtitle: "Apr 2026"
+description: "An NLP and combinatorial optimization pipeline using PyTorch, Transformers, and Google OR-Tools to reconstruct shuffled page collections."
+categories:
+  - PyTorch
+  - OR-Tools
+  - NLP
+github: "https://github.com/yuvraj-rathod-1202/narrative-page-sequencing"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/narrative-page-sequencing)
+
+## Project Overview
+
+Narrative Page Sequencing is an end-to-end AI/ML pipeline designed to reconstruct the original chronological order of narrative pages from shuffled text fragments. Built for forensic document analysts, archival preservationists, and NLP engineers, it extracts boundary sentence snippets, groups narratives by narrator using Named Entity Recognition and stylometrics, scores junctions via Cross-Encoders, and optimizes the sequence globally.
+
+## Problem
+
+Most document reconstruction tutorials and algorithms rely on greedy next-step selection. However, greedy algorithms suffer from error propagation—a single incorrect decision early in the sequence propagates down the chain and degrades the entire reconstruction. Additionally, standard sequence models are constrained by small context windows, making them unsuitable for processing larger, multi-page documents.
+
+I wanted to build a global optimization pipeline that models local semantic transitions and solves the page ordering problem globally.
+
+## Features
+
+- **Boundary Snippet Extraction:** Slices 60-word head and tail snippets from text fragments to focus semantic comparisons on page junctions.
+- **Narrator-Based Clustering:** Segments pages using spaCy Named Entity Recognition and stylometric profiles (lexical richness, punctuation patterns), reducing Cross-Encoder evaluation overhead by 81%.
+- **Cross-Encoder Junction Classifiers:** Fine-tunes DeBERTa-v3-small and RoBERTa models to predict adjacent page continuation probabilities.
+- **Global ATSP Solver:** Frames sequence recovery as an Asymmetric Traveling Salesperson Problem, using Google OR-Tools to find the optimal global Hamiltonian path.
+- **Local Heuristic Swaps:** Implements Simulated Annealing, 2-opt search, and Elo tournament rankings to refine candidate orders.
+- **Quantized LLM Coherence Raters:** Queries 4-bit LLaMA-3.1-8B and Mistral-7B models to evaluate local sliding-window coherence and resolve ordering ambiguities.
+
+## Tech Stack
+
+*   **Model & Training:**
+    *   PyTorch
+    *   Hugging Face Transformers
+    *   SentenceTransformers (all-MiniLM-L6-v2, BGE-Large)
+    *   spaCy (en_core_web_trf)
+
+*   **Optimization & Analytics:**
+    *   Google OR-Tools
+    *   scikit-learn (KMeans, DBSCAN, RidgeCV, PCA)
+    *   SciPy
+
+*   **Local LLM:**
+    *   LLaMA-3.1-8B (Quantized)
+    *   Mistral-7B-Instruct
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Raw["Raw Shuffled CSV"] --> Snips["Boundary Snips (Head/Tail)"]
+    Snips --> Clustering["Narrator Clustering<br>(spaCy NER + KMeans/DBSCAN)"]
+    Clustering --> Matrix["Junction Cost Matrix Calculation<br>(DeBERTa Cross-Encoder + GPT-2 Perplexities)"]
+    Matrix --> Solver["Google OR-Tools ATSP Solver<br>(Hamiltonian Path Optimization via Virtual Dummy Node)"]
+    Solver --> Swaps["Local Heuristic Swaps<br>(Simulated Annealing / 2-Opt)"]
+    Swaps --> Coherence["Quantized LLaMA Coherence Rating"]
+    Coherence --> Reconstructed["Chronological Reconstructed CSV"]
+```
+
+## My Contributions
+
+- Built the boundary text extraction logic and HTML text cleaning pipeline in Python.
+- Designed and trained DeBERTa-v3 and RoBERTa Cross-Encoders using contrastive Multiple Negatives Ranking Loss (MNRL).
+- Implemented the narrator clustering system using spaCy NER and KMeans/DBSCAN algorithms.
+- Modeled the Hamiltonian path optimization using Google OR-Tools, incorporating the virtual dummy node cost matrix mapping.
+- Implemented Simulated Annealing and 2-opt local search algorithms to refine sequence orderings.
+- Integrated quantized LLaMA-3.1-8B models via Hugging Face to score sequence coherence windows.
+
+## What I Learned
+
+- Fine-tuning Siamese architectures and Cross-Encoders for semantic sequence alignment.
+- Formatting graph problems as ATSP optimization networks.
+- Implementing local heuristic search optimization models (Simulated Annealing, 2-Opt).
+- Deploying quantized local LLMs for scoring context coherence.
+- Dimensionality reduction techniques (PCA) to stabilize regression features.
+
+## Results
+
+- Reconstructed book sequences of up to 147 pages (BookA) and 57 pages (BookB).
+- Reached a validation Kendall Tau score of ~0.640 using the custom NarrativeTransformer and Simulated Annealing.
+- Compressed transition evaluation costs by 81% using narrator clustering.
+
+## Future Work
+
+- Pre-embed and index page transitions using vector search libraries (FAISS) for sub-second retrieval.
+- Fine-tune quantized LLMs directly on style-specific corpora.
+- Implement Graph Neural Networks (GNNs) to capture multi-page sequences directly.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/narrative-page-sequencing](https://github.com/yuvraj-rathod-1202/narrative-page-sequencing)

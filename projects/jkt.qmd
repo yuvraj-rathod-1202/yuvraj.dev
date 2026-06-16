@@ -1,0 +1,98 @@
+---
+title: "Inventory & Retail Management System"
+date: "2024-12-31"
+subtitle: "Dec 2024"
+description: "A full-stack monolithic inventory and retail billing POS system using React, Redux Toolkit, Express, and MongoDB."
+categories:
+  - React
+  - Redux
+  - Node.js
+  - Express
+  - MongoDB
+github: "https://github.com/yuvraj-rathod-1202/jkt-backend"
+live-demo: "https://jkt-frontend.vercel.app/"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/jkt-backend) | [Live Demo](https://jkt-frontend.vercel.app/)
+
+## Project Overview
+
+JKT is an inventory control and point-of-sale (POS) billing platform built for small-to-medium retail outlets. Structured on the Model-View-Controller (MVC) design pattern, the system manages product levels, tracks category taxonomies, handles customer transactions, and updates stock amounts in real-time.
+
+## Problem
+
+*   **Stock Tracking Errors:** Manual inventory logs lead to discrepancy in actual stock counts and billing receipts.
+*   **Stale Frontend Data:** Typical inventory dashboards display outdated product lists unless users perform constant manual page refreshes.
+*   **Nested Document Lookups:** Fetching product category details or related stock tags in NoSQL databases requires complex object mappings.
+
+## Features
+
+*   **Full-Stack Monolith POS:** Unified interface managing product levels, checkout transactions, and sales logs.
+*   **Automated Caching Layer:** Employs Redux Toolkit (RTK) and **RTK Query** on the client, caching endpoints and executing mutation updates.
+*   **Mongoose Document Mapping:** Relational document model references using MongoDB `ObjectId` configurations and `.populate()` calls.
+*   **JWT User Authentication:** Encrypted login endpoints mapping user roles (Admin vs Billing Cashier).
+*   **Responsive Inventory CRUD:** Dashboard allowing admins to adjust categories, add new products, and track stock counts.
+
+## Tech Stack
+
+*   **Frontend App:**
+    *   React
+    *   Vite
+    *   Redux Toolkit (RTK)
+    *   RTK Query
+    *   TailwindCSS
+
+*   **Backend Server:**
+    *   Node.js
+    *   Express.js
+    *   Mongoose ORM
+    *   JSON Web Token (JWT)
+
+*   **Database:**
+    *   MongoDB
+
+## Architecture
+
+```{mermaid}
+graph TD
+    User["User (React Client with RTK Query)"] -->|HTTP requests / Cache hooks| Gateway["Express API Gateway (MVC Controllers)"]
+    Gateway --> Categories["Category Controllers"]
+    Gateway --> Products["Product Controllers"]
+    Gateway --> Sales["Transaction Logger"]
+    Categories --> DB_Cat[("MongoDB (Categories Collection)")]
+    Products --> DB_Prod[("MongoDB (Products Collection)")]
+    Sales --> DB_Sales[("MongoDB (Sales Collection)")]
+```
+
+## My Contributions
+
+*   Designed and built the Express.js backend REST APIs.
+*   Configured the Redux Toolkit store and integrated RTK Query caching hooks.
+*   Mapped Mongoose database schemas linking categories to product records via ObjectId references.
+*   Programmed the billing checkout calculation controller and inventory subtraction hooks.
+*   Developed the dashboard interfaces using Tailwind CSS components.
+
+## What I Learned
+
+*   Applying Model-View-Controller (MVC) design principles.
+*   Using RTK Query caching configurations.
+*   Modeling relational linkages inside NoSQL databases using Mongoose populate pipelines.
+*   Enforcing security validation rules on POS endpoints using JWT tokens.
+
+## Results
+
+*   Successfully constructed a unified inventory POS monolith.
+*   Minimized redundant API network lookups through RTK Query cache invalidation.
+*   Enabled cashier billing transaction processing.
+
+## Future Work
+
+*   Support barcode scanning integrations via browser camera inputs.
+*   Build automated PDF receipt generation and email receipts dispatch.
+*   Implement daily analytics dashboards charting sales counts.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/jkt-backend](https://github.com/yuvraj-rathod-1202/jkt-backend)
+*   **Live Demo:** [https://jkt-frontend.vercel.app/](https://jkt-frontend.vercel.app/)

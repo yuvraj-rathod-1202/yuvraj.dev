@@ -1,0 +1,103 @@
+---
+title: "ChiralDB: Hybrid Relational-Document Database Framework"
+date: "2026-04-20"
+subtitle: "Jan 2026 - Apr 2026"
+description: "An autonomous hybrid SQL/JSONB database engine that dynamically infers schemas, decomposes repeating arrays, and handles lock-free datatype drift migrations."
+categories:
+  - PostgreSQL
+  - FastAPI
+  - React
+  - TypeScript
+  - Vite
+  - Databases
+github: "https://github.com/devansh-lodha/chiral-db"
+live-demo: "https://devansh-lodha.github.io/chiral-db/"
+
+---
+
+[GitHub](https://github.com/devansh-lodha/chiral-db) | [Live Demo](https://devansh-lodha.github.io/chiral-db/)
+
+## Project Overview
+
+ChiralDB is a database middleware framework that bridges the gap between structured relational tables and flexible JSON document stores. Built on top of PostgreSQL, it dynamically parses incoming JSON records, extracts homogeneous fields into structured tables,normalizes repeating lists into relational child tables, and maintains a fallback GIN-indexed JSONB column for sparse or drifted data.
+
+## Problem
+
+*   **Schema Rigidity:** SQL databases require strict schemas, causing application errors or migrations downtime when data shapes evolve.
+*   **Document Joins Overhead:** NoSQL engines store data as documents, leading to high storage redundancies and expensive client-side joins for nested lists.
+*   **DDL Locks Downtime:** Altering column datatypes in production blocks database operations, leading to request timeouts.
+
+## Features
+
+*   **Hybrid Storage Engine:** Maps core fields to optimized PostgreSQL columns, and paths sparse fields to a fallback JSONB overflow container.
+*   **Repeating Array Decomposition:** Analyzes cardinailty and homogeneity of nested lists, decomposing them into child tables with cascading foreign keys.
+*   **Lock-Free Type-Drift Migration:** Detects runtime type changes (e.g. integer to string) and moves conflicted fields to JSONB without locking tables.
+*   **Dot-Notation Query Translation:** Parses dot-notated queries (`comments.text`) and translates them into parameterized SQL SELECT and JOIN commands.
+*   **Monotonic Conflict Resolution:** Append microsecond offsets to overlapping write timestamps, ensuring distinct bi-temporal ordering.
+*   **Entity Dashboard:** React dashboard mapping active databases, session schemas, and execution profiles.
+
+## Tech Stack
+
+*   **Backend Engine:**
+    *   Python 3.11
+    *   FastAPI
+    *   SQLAlchemy 2.0
+    *   asyncpg (Async PostgreSQL Client)
+    *   PostgreSQL 17
+
+*   **Frontend Inspector:**
+    *   React 18
+    *   TypeScript
+    *   Vite
+    *   TailwindCSS
+
+*   **DevOps & Tooling:**
+    *   UV
+    *   Justfile
+    *   Docker
+    *   Docker Compose
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Dashboard["React Dashboard"] --> Gateway["FastAPI Controller<br>(Ingestion / Query API)"]
+    Gateway --> Session["Session Manager"]
+    Session --> Metadata["Metadata Store<br>(MySQL / memory)"]
+    Session --> Norm["Normalization Heuristics"]
+    Session --> Query["Query Builder"]
+    Norm -->|Dynamic Schema updates| DB["PostgreSQL<br>(Relational fields + JSONB fallback)"]
+    Query -->|SQL Translation| DB
+```
+
+## My Contributions
+
+*   Built the Python query translation engine parsing nested queries to parameterized SQL.
+*   Developed statistical array decomposition heuristics checking homogeneity and occurrence ratios.
+*   Coded the asynchronous column-drift migration pipeline inside nested database checkpoints.
+*   Programmed the thread-safe monotonic clock using lock offsets to resolve conflicts.
+*   Created the React/TypeScript Entity Inspector dashboard mapping active database collections.
+
+## What I Learned
+
+*   Designing dynamic schema evolution schemas over SQL databases.
+*   Optimizing PostgreSQL JSONB index pathways (GIN indexes).
+*   Enforcing multi-tenant logical isolation configurations.
+*   Securing DDL operations against injection threats using regex validators.
+
+## Results
+
+*   Average query translation overhead kept under **1 - 2 milliseconds**.
+*   Average database execution latency clocked at **5.9 milliseconds**.
+*   Coordinated multi-entity updates executed **38.8% faster** than sequential query operations.
+
+## Future Work
+
+*   Support partial GIN indexes over frequently accessed fields in the JSONB column.
+*   Implement vector-based similarity search indexes for document search validation.
+*   Add database sharding routing based on session identifiers.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/devansh-lodha/chiral-db](https://github.com/devansh-lodha/chiral-db)
+*   **Live Demo:** [https://devansh-lodha.github.io/chiral-db/](https://devansh-lodha.github.io/chiral-db/)

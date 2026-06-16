@@ -1,0 +1,96 @@
+---
+title: "DecompGTI: Decomposed Graph Tool Instruction"
+date: "2026-05-01"
+subtitle: "Jan 2026 - Apr 2026"
+description: "A graph-reasoning framework that routes natural-language graph queries to deterministic Python algorithms on a Model Context Protocol (MCP) server."
+categories:
+  - Qwen
+  - LoRA
+  - FastMCP
+  - NetworkX
+  - Pydantic
+  - Machine Learning
+github: "https://github.com/yuvraj-rathod-1202/decompgti"
+
+---
+
+[GitHub](https://github.com/yuvraj-rathod-1202/decompgti)
+
+## Project Overview
+
+DecompGTI is a tool-augmented machine learning pipeline that decouples graph comprehension from algorithmic execution. Instead of forcing Large Language Models (LLMs) to perform complex graph computations internally (which leads to topological hallucinations and arithmetic failures), DecompGTI fine-tunes a Qwen2.5-7B model to output structured JSON plans. These plans are executed by a FastMCP server wrapping optimized NetworkX algorithms.
+
+## Problem
+
+*   **Topological Hallucination:** LLMs operating on linear token sequences struggle to track non-Euclidean graph topologies, predicting paths containing non-existent edges.
+*   **Arithmetic Failures:** Deep recursive computations (e.g., Dijkstra's shortest path, Max Flow, Bipartite matching) exceed the reasoning bounds of small decoder-only transformers.
+*   **Lack of Execution Guarantees:** Free-form generation provides no mathematical bounds or step-by-step verification, making agent workflows unreliable for critical analytics.
+
+## Features
+
+*   **Comprehension-Computation Decoupling:** REST APIs route text-based queries to a fine-tuned LLM for intent parsing, and forward execution to exact Python graph algorithms.
+*   **Model Context Protocol (FastMCP) Server:** Wraps NetworkX algorithms (BFS, DFS, Dijkstra, Max Flow, Kruskal's MST, Bipartite Matching) exposing them as queryable tools.
+*   **LoRA Supervised Fine-Tuning:** Adapter weights trained on LLaMA-Factory to constrain Qwen's output tokens exclusively to valid JSON plans.
+*   **Adjacency List Canonicalization:** Edge normalization utility transforming text representations into sorted, undirected edge arrays to stabilize parses.
+*   **Type Coercion Engine:** Pydantic schema validation layer mapping string nodes to matching numerical types before execution.
+
+## Tech Stack
+
+*   **Model Tuning & PEFT:**
+    *   Qwen2.5-7B
+    *   LoRA (Low-Rank Adaptation)
+    *   LLaMA-Factory
+    *   PyTorch
+
+*   **Algorithmic Runtime:**
+    *   FastMCP
+    *   NetworkX (>= 3.4.2)
+    *   Pydantic (>= 2.10.6)
+    *   Python 3.11
+
+*   **Tooling & Linting:**
+    *   UV (Package Manager)
+    *   Pytest
+    *   Ruff
+
+## Architecture
+
+```{mermaid}
+graph TD
+    Query["Agent Query / Prompt"] --> Qwen["Qwen2.5-7B (LoRA Fine-tuned)"]
+    Qwen -->|JSON plan| FastMCP["FastMCP Server"]
+    FastMCP --> Validation["Pydantic Type Coercion & Validation"]
+    Validation -->|Valid Parameters| NetworkX["NetworkX Runner"]
+    NetworkX -->|JSON Response| Result["Agent Result"]
+```
+
+## My Contributions
+
+*   Fine-tuned the Qwen2.5-7B base model using LLaMA-Factory LoRA adapters.
+*   Designed the Model Context Protocol (FastMCP) server wrapping NetworkX pathfinders.
+*   Developed Pydantic data validation schemas for arguments verification.
+*   Created canonicalization edge-sorter algorithms to reduce context length.
+*   Built the evaluation framework analyzing JSON validity, routing accuracy, and task success metrics.
+
+## What I Learned
+
+*   Supervised Fine-Tuning (SFT) workflows and Parameter-Efficient Fine-Tuning (PEFT/LoRA).
+*   Standardizing communication APIs using the Model Context Protocol (MCP).
+*   Evaluating agent tool-routing accuracy.
+*   Structuring clean, testable python repositories using UV and Pytest.
+
+## Results
+
+*   **100.0% JSON Validity Rate** and tool routing accuracy across all benchmark graph sizes.
+*   **85.4% micro-averaged task success rate**, outperforming Mistral-7B, LLaMA-3-8B, and LLaMA-3-70B baselines.
+*   Successfully maintained stable task success rates on larger graph sizes (up to 50 nodes).
+
+## Future Work
+
+*   Benchmark DecompGTI routing queries against frontier models (like GPT-4o).
+*   Incorporate data augmentation to improve argument extraction for DFS and connectivity queries.
+*   Support larger graph profiles using chunked neighborhood schemas.
+
+## Links
+
+*   **GitHub Repository:** [https://github.com/yuvraj-rathod-1202/decompgti](https://github.com/yuvraj-rathod-1202/decompgti)

@@ -1,24 +1,44 @@
 project:
   type: website
-  render:
-    - index.qmd
-    - 404.qmd
-    - blogs/cs_328_writing_assignment/writing_assignment.ipynb
 
 website:
   title: "Yuvraj Rathod"
+  description: "Personal portfolio website of Yuvraj Rathod, B.Tech in Artificial Intelligence @ IIT Gandhinagar."
+  site-url: "https://yuvraj-rathod-1202.github.io/yuvraj.dev"
   
   navbar:
     pinned: true
+    search: true
     left:
       - text: About
-        href: /
+        href: index.qmd
+      - text: Experience
+        href: experience.qmd
+      - text: Projects
+        href: projects.qmd
+      - text: Achievements
+        href: achievements.qmd
+      - text: Academics
+        href: academics.qmd
+      - text: Blogs
+        href: blogs.qmd
+    right:
+      - icon: github
+        href: https://github.com/yuvraj-rathod-1202
+        aria-label: GitHub
+      - icon: linkedin
+        href: https://www.linkedin.com/in/yuvraj-rathod-5134b4317/
+        aria-label: LinkedIn
+      - icon: envelope
+        href: mailto:yuvraj.rathod@iitgn.ac.in
+        aria-label: Email
 
 format:
   html:
-    smooth-scroll: true
     theme:
       light: theme-light.scss
       dark: theme-dark.scss
     css: styles.css
+    toc: true
     highlight-style: github
+

@@ -1,0 +1,25 @@
+---
+title: "Projects"
+listing:
+  contents:
+    - projects/gms.qmd
+    - projects/chiral_db.qmd
+    - projects/decompgti.qmd
+    - projects/page_sequencing.qmd
+    - projects/image_classification.qmd
+    - projects/tedxiitgandhinagar.qmd
+    - projects/elevateed.qmd
+    - projects/leaderboard_pro.qmd
+    - projects/academic_outreach.qmd
+    - projects/map.qmd
+    - projects/electricity_consumption_predictor.qmd
+    - projects/vcw.qmd
+    - projects/jkt.qmd
+    - projects/car_purchase_classification.qmd
+  sort: false
+  template: projects-grid.ejs
+  categories: false
+  fields: [title, subtitle, description, categories, github, live-demo]
+page-layout: full
+title-block-banner: false
+---

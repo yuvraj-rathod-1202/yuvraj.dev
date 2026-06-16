@@ -1,20 +1,23 @@
 /*-- scss:defaults --*/
 
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-// colors
+// colors (simple blue/slate palette)
 $body-bg: #ffffff;
-$body-color: #000000;
-$link-color: #FA2D48;
+$body-color: #2d3748;
+$link-color: #1a0dab;
 $input-bg: #ffffff;
 $popover-bg: #ffffff;
 
 // fonts
-$font-family: 'Lato';
+$font-family: 'Inter', sans-serif;
 
 // code blocks
-$btn-code-copy-color-active: #FA2D48;
-$code-color: #FA2D48;
+$btn-code-copy-color-active: #1a0dab;
+$code-color: #c7254e;
+$code-bg: #f9f2f4;
 
 // navbar
 $navbar-bg: #ffffff;
+$navbar-fg: #2d3748;
+$navbar-hl: #1a0dab;

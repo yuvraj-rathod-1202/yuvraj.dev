@@ -1,5 +1,31 @@
 ---
 title: "Yuvraj Rathod"
+about:
+  template: trestles
+  image: profile.png
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/yuvraj-rathod-1202
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/yuvraj-rathod-5134b4317/
+    - icon: envelope
+      text: Email
+      href: mailto:yuvraj.rathod@iitgn.ac.in
+
 ---
 
-Yuvraj Rathod
+## About Me
+
+I am a second-year undergraduate student in the **Department of Artificial Intelligence** at the **Indian Institute of Technology (IIT) Gandhinagar**. 
+
+I love making useful software and building scalable backends. I have worked on several projects in full-stack development, database systems, and machine learning.
+
+## Technical Highlights
+
+*   **Microservices Architecture:** Architected and containerized the **[Grading Management System (GMS)](projects/gms.qmd)**, a 6-service platform deploying FastAPI, React, MySQL, RabbitMQ, and Kubernetes configurations.
+*   **Graph Machine Learning:** Engineered **[DecompGTI](projects/decompgti.qmd)**, a graph tool-routing framework fine-tuned on Qwen2.5-7B using LoRA SFT and deployed as a local FastMCP server, achieving 100% tool routing accuracy.
+*   **Database Systems:** Developed **[ChiralDB](projects/chiral_db.qmd)**, an autonomous PostgreSQL SQL/JSONB database engine featuring statistical heuristics and lock-free datatype drift migrations.
+*   **Educational AI Tools:** Co-developed **[ElevateEd AI](projects/elevateed.qmd)**, a multimodal study kit generator utilizing Gemini models, securing the nationwide Runner-Up prize at the upGrad CodeEd AI Hackathon.
+*   **Event Infrastructure:** Directed digital platforms as Tech Coordinator for **TEDxIITGandhinagar**, building secure Razorpay payment webhooks and a real-time web app for location QR-checkpoint scanning.
