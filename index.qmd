@@ -13,6 +13,9 @@ about:
     - icon: envelope
       text: Email
       href: mailto:yuvraj.rathod@iitgn.ac.in
+    - icon: code-slash
+      text: Codeforces
+      href: https://codeforces.com/profile/Yuvraj_Rathod
 
 ---
 

@@ -32,6 +32,9 @@ website:
       - icon: envelope
         href: mailto:yuvraj.rathod@iitgn.ac.in
         aria-label: Email
+      - icon: code-slash
+        href: https://codeforces.com/profile/Yuvraj_Rathod
+        aria-label: Codeforces
 
 format:
   html:
