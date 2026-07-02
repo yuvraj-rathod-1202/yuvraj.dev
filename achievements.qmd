@@ -35,3 +35,14 @@ title: "Achievements"
 *   Successfully completed the global open-source challenge.
 *   Submitted and merged 6 pull requests (exceeding the baseline requirement of 4) in public JavaScript and frontend web repositories.
 *   Demonstrated proficiency in Git, GitHub workflows, code reviews, and remote team collaborations.
+
+---
+
+## Competitive Selections
+
+### **Selected Participant - Amazon ML Summer School (MLSS) 2026**
+*July 2026 (Upcoming)*
+
+*   Selected to participate in the prestigious Amazon ML Summer School (MLSS) 2026 program.
+*   One of **3,000** candidates selected nationwide from over **1.3 Lakh (130,000+)** applications, representing a top **2.3%** selection rate.
+
