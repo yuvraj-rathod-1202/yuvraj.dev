@@ -20,11 +20,16 @@ listing:
   template: projects-grid.ejs
   categories: false
   fields: [title, subtitle, description, categories, github, live-demo]
+  id: custom-projects-list
 page-layout: full
 title-block-banner: false
 ---
 
+::: {#custom-projects-list}
+:::
+
 <div style="text-align: center; margin-top: 30px; margin-bottom: 50px;">
   <a href="https://github.com/yuvraj-rathod-1202" class="btn btn-outline-primary" target="_blank" role="button">Check GitHub for more projects</a>
 </div>
+
 
