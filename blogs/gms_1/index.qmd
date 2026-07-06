@@ -1,0 +1,128 @@
+---
+title: "GMS: What it is and why it is"
+subtitle: "Grading Management System"
+author: "Yuvraj Rathod"
+date: "2026-07-06"
+description: "GMS is a Grading Management System that helps instructors and students manage course grades and assessments."
+categories: [Software Engineering, Open Source]
+format:
+  html:
+    code-tools: false
+    link-external-newwindow: true
+---
+
+GMS stands for **Grading Management System**. It did not start as a big product idea. It started from a real conversation, a real problem, and a real need.
+
+I met Prof. Sameer Kulkarni at **IIT Gandhinagar** because I wanted to work with [Docker](https://www.docker.com/) and [Kubernetes](https://kubernetes.io/). I asked him if he had any project ideas I could work on. He suggested a few, but **GMS** stayed with me because the problem was very real and very common.
+
+In this first blog, I want to share how **GMS** started, what problem it solves, and why I believed it was worth building.
+
+## How the idea started
+
+When Prof. Sameer Kulkarni explained the problem, I could see it from both sides: the **instructor side** and the **student side**.
+
+On the instructor side, grading work was scattered across different sheets, files, and platforms. On the student side, marks were also scattered, and there was no single place to check everything.
+
+That made the idea feel important right away.
+
+## The student problem
+
+As a student, I had seen this problem many times.
+
+Sometimes marks were shown only once during paper showing. If you missed that time, you lost the chance to check them again. Even if you attended, you might forget the marks later because there was no central place to view them.
+
+In some courses, marks were shared by email. In other courses, they were shared in Google Classroom. In others, they were shared somewhere else.
+
+So the problem was not only about missing marks. The bigger problem was that marks were scattered across different places.
+
+## The instructor and TA problem
+
+Prof. Sameer Kulkarni also explained the problem from the instructor and TA side.
+
+Marks were often stored in different sheets. If they wanted to share marks with students, they sometimes had to write scripts to send automatic emails. Some instructors used Google Classroom, but that still did not solve the student side problem, because students still had to look in different places.
+
+There was also another issue: **course analytics**.
+
+Many times, instructors and TAs had to write formulas in spreadsheets just to find common values like mean, median, min, and max. They also had to write formulas for grading policies like best 3, cumulative, and custom weights. In fact, a large part of the queries they got from students were about the mean and median of assessment scores.
+
+That showed me that the system was solving a real pain point.
+
+## What GMS was built to solve
+
+**GMS** was built to bring everything into one place.
+
+**For students**, it gives a simple interface where they can see their assessment marks, along with useful summary values like mean, median, min, and max. If the instructor does not want to show those values, they can turn them off for that course.
+
+**For instructors and TAs**, it gives a central dashboard for course management. They can:
+
+- Add students to a course
+- Add TAs and assign permissions
+- Create assessments
+- Upload marks sheets or enter marks manually
+- Publish marks when they are ready
+- View analytics for the course
+
+This means less manual work, less confusion, and less need to switch between tools.
+
+## A better experience for students
+
+With GMS, students do not need to depend on paper showing, scattered emails, or different platforms.
+
+If an assessment is published, they can open **GMS** and see:
+
+- Their marks
+- The total marks
+- The mean
+- The median
+- The minimum and maximum score
+
+That makes it much easier to keep track of performance through the course.
+
+## A better experience for instructors
+
+**GMS** also helps the instructor side in a few important ways.
+
+The system supports **different assessment types** such as:
+
+- Quiz
+- Mid sem
+- Assignment
+- Attendance
+
+It also supports different weights for each type. Inside each parent type, instructors can create assessments and choose policies like:
+
+- **Best N** (e.g., Best 3 of 4)
+- **Cumulative**
+- **Custom weight**
+
+This gives course teams a lot more control. They can also create different student policies, such as regular or audit, and assign them with one click.
+
+That means the system is not only for storing marks. It is also for managing the full grading flow.
+
+## Why this project mattered to me
+
+The more I understood the problem, the more I felt that **GMS** could help many people.
+
+It could help students who want one place to check their marks.
+It could help TAs who do not want to write scripts again and again.
+It could help instructors who want a cleaner way to manage grading.
+
+At first, we built it with IIT Gandhinagar in mind. But the vision was always bigger than one course or one institute. It was meant to be useful for any university that wants a smoother grading workflow.
+
+That is also why **we made GMS open source**. The code is available on [GitHub](https://github.com/yuvraj-rathod-1202/GMS), so anyone who wants to use it can use it. If someone finds a bug, a wrong design choice, or a better way to do something, they can raise an issue or contribute back. We welcome open source contributors.
+
+## Why the architecture was shaped by this vision
+
+That vision mattered in every later decision.
+
+The database design, the microservice split, the use of Kubernetes, the folder structure, and even the code layout were all planned with the same goal: build something that is clean, flexible, and easy to grow.
+
+The system had to work well for the real problem, not just look good on paper.
+
+## Closing Thoughts
+
+GMS started from a real problem that students, TAs, and instructors face every day. Marks were scattered. Analytics were manual. Sharing was messy. And students had no single place to view everything.
+
+This project was my answer to that problem.
+
+In the next blog, I will show how I turned this idea into a system design, database plan, and service split that could support the full product.
