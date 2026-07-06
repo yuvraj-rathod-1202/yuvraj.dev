@@ -66,7 +66,7 @@ This means less manual work, less confusion, and less need to switch between too
 
 ## A better experience for students
 
-With GMS, students do not need to depend on paper showing, scattered emails, or different platforms.
+With **GMS**, students do not need to depend on paper showing, scattered emails, or different platforms.
 
 If an assessment is published, they can open **GMS** and see:
 
@@ -121,7 +121,7 @@ The system had to work well for the real problem, not just look good on paper.
 
 ## Closing Thoughts
 
-GMS started from a real problem that students, TAs, and instructors face every day. Marks were scattered. Analytics were manual. Sharing was messy. And students had no single place to view everything.
+**GMS** started from a real problem that students, TAs, and instructors face every day. Marks were scattered. Analytics were manual. Sharing was messy. And students had no single place to view everything.
 
 This project was my answer to that problem.
 
