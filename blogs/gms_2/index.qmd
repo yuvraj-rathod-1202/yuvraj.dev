@@ -1,0 +1,227 @@
+---
+title: "GMS System Design: Microservices, Database, Kubernetes, and RabbitMQ"
+subtitle: "Grading Management System"
+author: "Yuvraj Rathod"
+date: "2026-07-06"
+description: "A deep dive into the system design of GMS, covering microservices, database design, Kubernetes orchestration, and asynchronous processing with RabbitMQ."
+categories: [Software Engineering, Open Source]
+format:
+  html:
+    code-tools: false
+    link-external-newwindow: true
+---
+
+In the [first blog](../gms_1/index.qmd), I shared the story behind **GMS** and the problem it was meant to solve. This blog picks up from there.
+
+Now the question was not just what **GMS** should do, but how it should be built in a way that was clean, easy to understand, and close to industry standard. I wanted the codebase to be easy for others to read too, because **GMS** was always meant to be open source.
+
+That is why I started with system design, database design, and service boundaries before writing the full code.
+
+## From the problem to the design
+
+The story of **GMS** made the design choice pretty clear.
+
+There were different jobs in the system:
+
+- Login and user identity
+- Course setup and role assignment
+- Marks and assessment handling
+- Grading policy and rules
+- Analytics and summary values
+- API routing and access control
+
+Once I identified these different areas, it made sense to turn them into microservices instead of keeping everything in one large backend.
+
+That was the first big design decision.
+
+## Why microservices made sense
+
+I did not choose microservices just because they sound modern. I chose them because the work itself was split into different parts.
+
+For example, `auth` does one job. `courses` does another. `marks` and `policy` have their own logic. `analytics` is different again because it reads data and computes summaries.
+
+If all of that lives in one place, the code becomes harder to manage over time.
+
+By splitting the system into services, I could give each part a clear role. That made the project easier to build, easier to debug, and easier to open source.
+
+## The services I identified
+
+The main services in **GMS** became:
+
+- **gateway**: The entry point for API requests
+- **auth**: Login, user identity, and feedback data
+- **courses**: Course creation, student enrollment, and course roles
+- **marks**: Assessments, marks, and challenges
+- **policy**: Grading rules, policies, and computed totals
+- **analytics**: Course and assessment analytics
+- **frontend**: The user interface
+
+This split was not random. It matched the actual work that each part of the system had to do.
+
+### Architecture diagram
+
+```{mermaid}
+graph TD
+    User[Student / Instructor / TA] --> Frontend[Frontend]
+    Frontend --> Gateway[Gateway]
+
+    Gateway --> Auth[auth]
+    Gateway --> Courses[courses]
+    Gateway --> Marks[marks]
+    Gateway --> Policy[policy]
+    Gateway --> Analytics[analytics]
+
+    Marks --> RabbitMQ([RabbitMQ])
+    Policy --> RabbitMQ
+    RabbitMQ --> Analytics
+
+    Auth --> AuthDB[(auth DB)]
+    Courses --> CoursesDB[(courses DB)]
+    Marks --> MarksDB[(marks DB)]
+    Policy --> PolicyDB[(policy DB)]
+    Analytics --> AnalyticsDB[(analytics DB)]
+```
+
+## Database design
+
+I wanted the database design to be simple, clear, and easy to follow.
+
+Each service owns its own data shape. That is a useful pattern because it keeps the responsibility in one place.
+
+### auth database
+
+The `auth` service keeps the user identity data.
+
+Main tables:
+
+- users
+- email_id_map
+
+This service stores login and identity related information, not course data or marks.
+
+### courses database
+
+The `courses` service keeps course structure and role mapping.
+
+Main tables:
+
+- courses
+- courses_role
+- admin
+
+This service handles who is in which course and what role they have.
+
+### marks database
+
+The `marks` service stores assessment and mark entry data.
+
+Main tables:
+
+- assessments
+- marks
+- challenges
+
+This is where the core grading data lives. It also enforces rules like not allowing marks above the maximum allowed.
+
+### policy database
+
+The `policy` service stores grading rules and course policies.
+
+Main tables:
+
+- course_policy
+- assessment_category
+- grading_components
+- grading_rule
+- student_course_policy
+- computed_totals
+
+This part of the system is where the grading logic becomes flexible. It supports policies like best N, cumulative, equal weightage, and custom rules.
+
+### analytics database
+
+The `analytics` service stores summary and frequency data.
+
+Main tables:
+
+- course_analytics
+- assessment_analytics
+- course_mark_frequency
+- assessment_mark_frequency
+
+This service is built for fast reporting and simple view generation.
+
+### Data flow diagram
+
+```{mermaid}
+graph LR
+    Marks[Marks Service] -->|published marks| RabbitMQ([RabbitMQ])
+    Policy[Policy Service] -->|computed totals request| RabbitMQ
+    RabbitMQ --> Analytics[Analytics Service]
+    Analytics -->|summary values| Frontend[Frontend]
+    Policy -->|final grade values| Frontend
+```
+
+## Why Kubernetes was the right choice
+
+Once the system was split into services, orchestration became a real problem.
+
+That is where **Kubernetes** helped.
+
+It gave me a clean way to run many services together, keep them separated, and deploy them in a repeatable way. Instead of managing every service manually, I could use manifests and scripts to bring the whole system up.
+
+The repo already reflects this approach with per-service manifests and deployment scripts. That was important because I wanted the project to feel like a real production-style system, not just a local demo.
+
+Some of the main benefits of **Kubernetes** here were:
+
+- Each service could run independently
+- Deployments were repeatable
+- Scaling was easier later
+- Updates could be made service by service
+- The same structure worked well for open source contributors
+
+## Why RabbitMQ was needed
+
+Not every task should block the API request.
+
+Some work, especially analytics and derived calculations, is better done in the background. That is why **RabbitMQ** became useful in **GMS**.
+
+The `marks` and `policy` side can trigger work, and the `analytics` side can process that work later without slowing down the user request.
+
+That helps in two ways:
+
+- The API returns faster
+- Background processing keeps happening safely in the back
+
+It also makes the service communication cleaner, because the services do not need to be tightly linked all the time.
+
+## Why this design felt industry standard
+
+I wanted the system to follow a structure that other developers could understand quickly.
+
+That meant:
+
+- Clear service boundaries
+- Separate data ownership
+- A gateway in front of backend services
+- **Kubernetes** for orchestration
+- **RabbitMQ** for async processing
+- Simple deployment scripts and manifests
+
+Because **GMS** was open source, this mattered even more. If someone new opens the [GitHub repo](https://github.com/yuvraj-rathod-1202/GMS), they should be able to understand the system without guessing too much.
+
+## The tradeoff
+
+This design was not the easiest possible way to build the project.
+
+Microservices, **Kubernetes**, and messaging all add more moving parts. But that extra structure was worth it because the system needed to be maintainable and grow over time.
+
+I would rather spend more time on a clean setup than end up with a design that becomes hard to change later.
+
+## Closing Thoughts
+
+This design phase gave **GMS** its shape.
+
+The database was split by responsibility. The services were split by work area. **Kubernetes** handled orchestration. **RabbitMQ** handled background work. And the whole setup was built in a way that was easy to explain, easy to deploy, and easy to contribute to.
+
+In the next blog, I will move from design to implementation and show how I turned this structure into a real codebase.

@@ -125,4 +125,4 @@ The system had to work well for the real problem, not just look good on paper.
 
 This project was my answer to that problem.
 
-In the next blog, I will show how I turned this idea into a system design, database plan, and service split that could support the full product.
+In the [next blog](../gms_2/index.qmd), I will show how I turned this idea into a system design, database plan, and service split that could support the full product.
