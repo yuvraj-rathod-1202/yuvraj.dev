@@ -2,7 +2,7 @@
 title: "GMS System Design: Microservices, Database, Kubernetes, and RabbitMQ"
 subtitle: "Grading Management System"
 author: "Yuvraj Rathod"
-date: "2026-07-06"
+date: "2026-07-08"
 description: "A deep dive into the system design of GMS, covering microservices, database design, Kubernetes orchestration, and asynchronous processing with RabbitMQ."
 categories: [Software Engineering, Open Source]
 format:
