@@ -1,5 +1,5 @@
 ---
-title: "Blogs & Assignments"
+title: "Blogs"
 listing:
   contents: blogs
   sort: "date desc"
