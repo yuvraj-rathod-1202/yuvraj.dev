@@ -224,4 +224,4 @@ This design phase gave **GMS** its shape.
 
 The database was split by responsibility. The services were split by work area. **Kubernetes** handled orchestration. **RabbitMQ** handled background work. And the whole setup was built in a way that was easy to explain, easy to deploy, and easy to contribute to.
 
-In the next blog, I will move from design to implementation and show how I turned this structure into a real codebase.
+In the [next blog](../gms_3/index.qmd), I will move from design to implementation and show how I turned this structure into a real codebase.

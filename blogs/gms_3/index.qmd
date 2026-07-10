@@ -1,0 +1,195 @@
+---
+title: "GMS: Building the Base - Tech Stack and Folder Structure"
+subtitle: "Grading Management System"
+author: "Yuvraj Rathod"
+date: "2026-07-10"
+description: "An overview of the technology stack and monorepo folder structure chosen for GMS, detailing the blueprint of its microservices and separation of concerns."
+categories: [Software Engineering, Open Source]
+format:
+  html:
+    code-tools: false
+    link-external-newwindow: true
+---
+
+In the [last blog](../gms_2/index.qmd), I shared how **GMS** was designed as a system. I explained the choice of microservices and how each service would own its own data.
+
+That design gave **GMS** its shape. But now came the harder part: turning that design into a real codebase.
+
+The question was not just what tools to use, but how to organize the code in a way that made sense. Especially because **GMS** was [open source on GitHub](https://github.com/yuvraj-rathod-1202/GMS), the structure had to be clear enough that anyone reading it could understand it quickly.
+
+In this blog, I will share the tech stack I chose and the folder structure I designed. More importantly, I will explain the thinking behind each choice and why this structure worked so well as the project grew.
+
+## The Tech Stack I Used
+
+Before deciding on the folder structure, I had to choose the right tools.
+
+The stack had to match the kind of system I was building. I needed strong backend services, a modern frontend, a solid database, and a clean path to deploy everything. It also had to be a stack that other developers could understand quickly, since the project was open source.
+
+The main stack became:
+
+- **Python and FastAPI** for backend services
+- **Next.js and TypeScript** for the frontend
+- **MySQL** for the database
+- **RabbitMQ** for async messaging
+- **Docker** for containers
+- **Kubernetes** for orchestration
+
+This combination gave me a good balance between speed of development and system structure.
+
+### Why I chose FastAPI and Python
+
+**FastAPI** was a strong choice for several reasons.
+
+First, it is fast to write with. **FastAPI** handles a lot of the boilerplate that other frameworks require. That meant I could focus on business logic instead of framework setup.
+
+Second, **FastAPI** is easy to read. The code stays clean and simple, which matters when you have multiple services and multiple developers working on them.
+
+Third, **FastAPI** works very well for API work. It gives you request validation, automatic documentation, and error handling without extra work. That is important when you have a gateway routing requests to multiple services.
+
+**Python** helped me move quickly while keeping the code simple enough to maintain. Since **GMS** is [open source on GitHub](https://github.com/yuvraj-rathod-1202/GMS), readability is just as important as speed.
+
+### Why I chose Next.js and TypeScript for the frontend
+
+The frontend needed to be modern, flexible, and easy to grow. Next.js gave me all of that.
+
+It allowed me to build with a component-based approach, which made it much easier to keep the UI organized. It also gave me built-in routing, static generation, and server-side rendering, which helped with performance.
+
+Using **TypeScript** added another layer of safety. It caught errors early, made refactoring easier, and the code was much clearer to read.
+
+### Why MySQL
+
+**MySQL** was chosen because it is reliable, widely understood, and works well with the microservices approach. Each service could own its own database schema without having to coordinate with other services.
+
+**MySQL** is also mature and well-documented, which matters when building an [open source project on GitHub](https://github.com/yuvraj-rathod-1202/GMS). Teams can find help easily, and new contributors do not have to learn a new database system.
+
+## Thinking About Folder Structure for Production
+
+Once I had the tech stack, I had to think about folder structure.
+
+This might sound like a small choice, but it matters a lot when a project grows. When **GMS** goes into production and gets used at real courses, the folder structure has to make sense. Every developer who works on it has to understand where code belongs.
+
+It matters even more because **GMS** is [open source on GitHub](https://github.com/yuvraj-rathod-1202/GMS). If someone new reads the code, they should be able to navigate it without confusion. A good folder structure is like a map. It helps people find what they need.
+
+So I spent time thinking about this. The question was: how do I organize the code so that it makes sense both to me and to future contributors?
+
+The answer came from the system design I had already done. I had already decided that **GMS** would be built as microservices. That meant I should organize the code around those services.
+
+## The Monorepo Approach: One Folder Per Service
+
+I decided to keep **GMS** as a monorepo, with one folder per service. This meant I would not split the code into separate Git repositories. Instead, everything lived in one place, with each service in its own folder.
+
+This approach had clear benefits:
+
+- It was easy to see all the services in one place
+- Deployment scripts could work with the whole project
+- Contributors could understand the full system without cloning multiple repos
+- Changes across services were easier to manage
+
+The main folders became:
+
+- `gateway` - The entry point for all requests
+- `auth_user` - Login and user identity
+- `courses` - Course management
+- `marks` - Assessments and mark entry
+- `policy` - Grading rules and policies
+- `analytics` - Course and assessment analytics
+- `frontend` - The user interface
+- `mysql` - Database setup and scripts
+- `rabbitmq` - Messaging configuration
+- `docs` - Documentation
+- `scripts` - Shared deployment scripts
+
+This structure made ownership clear. If I needed to work on `auth`, I knew to go to the `auth_user` folder. If I needed course logic, the `courses` folder was where to look.
+
+## The Blueprint of a Microservice
+
+Now came the real design work. Each backend service had to have a clear internal structure.
+
+I wanted all services to follow the same pattern. This meant that if a developer understood one service, they could understand all the others. But I also wanted each service to have the freedom to grow in its own way.
+
+So I designed a blueprint that every backend service would follow:
+
+```
+service_name/
+├── Dockerfile
+├── server.py
+├── requirements.txt
+├── init.sql
+├── manifests/
+│   ├── deploy.yaml
+│   ├── service.yaml
+│   └── config.yaml
+├── models/
+│   └── schema/
+│       ├── request.py
+│       └── response.py
+├── routes/
+│   ├── __init__.py
+│   └── [endpoint_name].py
+├── services/
+│   ├── __init__.py
+│   └── [logic_name].py
+├── utils/
+│   ├── __init__.py
+│   ├── db.py
+│   ├── auth.py
+│   └── [helper_name].py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── api/
+│   └── services/
+└── pytest.ini
+```
+
+Here is what each folder and file does:
+
+- **Dockerfile** - Instructions to build and run this service as a container
+- **server.py** - The entry point that starts the **FastAPI** application
+- **requirements.txt** - Lists all **Python** packages needed by this service
+- **init.sql** - Database initialization script that creates tables and schema for this service
+- **manifests/** - **Kubernetes** configuration files (deploy.yaml, service.yaml, config.yaml)
+- **models/** - Request and response data schemas using **Pydantic** for validation
+- **routes/** - API endpoints that handle HTTP requests (each file is a group of related endpoints)
+- **services/** - Business logic layer where the actual work happens
+- **utils/** - Helper functions like database connections (db.py), authentication (auth.py), and other utilities
+- **tests/** - Tests for the API (api/) and business logic (services/)
+
+## Why This Structure Worked So Well
+
+This blueprint created a clear separation of concerns. Each part of the code had one job:
+
+- **Routes are separate from services** - If I needed to change an API endpoint, I only touched `routes`. The business logic in `services` stayed the same. Changes were isolated and easy to track.
+
+- **Services are separate from utilities** - If I needed to change how the database works, I only changed `db.py` in utils. Every service using the database automatically got the improvement.
+
+- **Each service is independent** - With its own Dockerfile, requirements.txt, and database schema, each service could be developed, tested, and deployed separately without affecting others.
+
+The biggest win was **loose coupling**. Services worked together but did not depend heavily on each other. If one part changed, the others did not break.
+
+This meant:
+
+- New developers only had to understand one service to start working
+- Teams could work on different services at the same time
+- I could replace parts of the system without breaking everything else
+- The codebase stayed flexible and easy to improve over time
+
+## Closing Thoughts
+
+The base of **GMS** was not just the tech stack. It was the careful structure I built around the stack.
+
+The choice of **Python**, **FastAPI**, **Next.js**, and **MySQL** gave me the right tools. But the folder structure I designed gave the code its shape.
+
+By organizing code around services and by keeping each part focused on one job, I created a system that was:
+
+- Easy to understand
+- Easy to maintain
+- Easy to grow
+- Easy to contribute to
+- Easy to deploy
+
+These qualities mattered because **GMS** was not just a personal project. It was meant to be [open source on GitHub](https://github.com/yuvraj-rathod-1202/GMS). It was meant to be worked on by many different people.
+
+The structure had to support all of that. And it did.
+
+In the next blog, I will share how I turned this blueprint into real code, starting with the first services and how the core system started to take shape.
