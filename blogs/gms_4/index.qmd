@@ -1,0 +1,99 @@
+---
+title: "GMS: Building the Core Services"
+subtitle: "Grading Management System"
+author: "Yuvraj Rathod"
+date: "2026-07-10"
+description: "An inside look at building the core microservices of GMS incrementally, implementing communication patterns, testing APIs, and separating business logic."
+categories: [Software Engineering, Open Source]
+format:
+  html:
+    code-tools: false
+    link-external-newwindow: true
+---
+
+With the design and folder blueprint established in the [previous posts](../gms_3/index.qmd), the project moved from planning to implementation. [Blog 1](../gms_1/index.qmd) explained the problem and motivation, [Blog 2](../gms_2/index.qmd) laid out the system design and data ownership, and [Blog 3](../gms_3/index.qmd) defined the tech stack and monorepo layout. Here I describe how the core backend services were built in practice, why I ordered work the way I did, and the practical lessons learned while keeping the codebase clean and maintainable.
+
+## Why build services incrementally
+
+I built services one at a time to reduce feedback loops and limit blast radius. The approach is simple:
+
+- Implement a small, testable slice of functionality
+- Wire it into the gateway and auth flows
+- Exercise it with unit and integration tests
+- Then iterate or move to the next service
+
+### Start with gateway and auth: the project front door
+
+The `gateway` and `auth_user` service are the foundation. The `gateway` acts as a lightweight router and a place to implement cross-cutting concerns (CORS, request logging, rate limit, simple auth checks). `auth_user` owns identity and basic user metadata. I focused on these first because:
+
+- Other services depend on authenticated requests and user IDs
+- Consistent, testable auth behavior reduces later surprises
+- Gateway allows local end-to-end testing without coupling services tightly
+
+### Courses: core domain and reference data
+
+The `courses` service stores the canonical course structure and role mappings. Because almost every other service references a course or a course role, it acts as a reference service. I made these choices when implementing it:
+
+- Keep the course object compact (ID, code, title, term, metadata)
+- Expose role endpoints (`/courses/{id}/roles`) used by `gateway`, `marks`, and `policy`
+- Validate input strictly with **Pydantic** models to avoid schema drift
+
+### Marks: focused on data correctness
+
+The `marks` service is the primary write surface for assessment entries. Its responsibilities:
+
+- Accept bulk uploads and single-entry updates
+- Enforce constraints (max marks, assessment visibility)
+- Publish events when marks are published (**RabbitMQ**)
+
+### Policy: encapsulate grading rules
+
+Grading rules are complex and change frequently. I separated the policy logic into its own service so rules could evolve independently from marks storage. The `policy` service:
+
+- Stores course-level grading policies and assessment categories
+- Computes student totals according to configured rules (best-N, custom weights, cumulative)
+- Exposes an API for on-demand computation and also consumes mark-published events to precompute totals
+
+### Analytics: reporting and background processing
+
+Analytics reads data from service-owned stores (via safe read APIs or replicated views) and builds derived data: mean, median, frequencies, and distribution charts. Key points:
+
+- Analytics processing is async - triggered by messages (**RabbitMQ**) when marks are published
+- Keep analytics models denormalized for fast reads
+- Design retention and rollup strategies early to avoid long-term storage bloat
+
+## Communication patterns and decoupling
+
+Following Blog 2, services communicate with minimal coupling. I used two primary patterns:
+
+- Synchronous HTTP for direct queries and transactional operations (e.g., course membership checks)
+- Asynchronous messaging (**RabbitMQ**) for events that can be processed later (e.g., marks published → analytics, policy recompute)
+
+## Testing strategy while building
+
+Tests were an essential safety net at every step. My testing approach:
+
+- Unit tests for service logic (business rules, validators)
+- Small integration tests for route → service interaction using `TestClient`
+- Contract checks between services (example: `courses` API returns fields that `marks` expects)
+- End-to-end smoke test that runs `gateway` + a minimal set of services together
+- Use **Postman** for manual API endpoint testing and iterative debugging
+
+## Deployment
+
+- Containerize each service (`Dockerfile` in each service folder)
+- Provide small, reproducible Kubernetes manifests in `manifests/` for each service
+- Use a simple deployment script for local clusters and a separate manifest set for production
+
+The final blog describes how these choices came together during the actual deployment and testing with students.
+
+## Practical lessons and tradeoffs
+
+- Start small and keep APIs stable - breaking changes are costly once multiple services depend on them
+- Separate rules (`policy`) from data (`marks`) to make policy experimentation safer
+- Prefer event-driven updates for heavy work like analytics
+- Invest in tests and observability early to reduce debugging time later
+
+## Closing thoughts
+
+This phase was where the design from [Blog 1](../gms_1/index.qmd)–[3](../gms_3/index.qmd) turned into running services. Implementing services one by one, enforcing clear contracts, and keeping communication patterns simple helped the project scale from a prototype into a working platform. The next blog walks through deployment, Kubernetes manifests, and the beta test with over 330 students.

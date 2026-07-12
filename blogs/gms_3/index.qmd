@@ -192,4 +192,4 @@ These qualities mattered because **GMS** was not just a personal project. It was
 
 The structure had to support all of that. And it did.
 
-In the next blog, I will share how I turned this blueprint into real code, starting with the first services and how the core system started to take shape.
+In the [next blog](../gms_4/index.qmd), I will share how I turned this blueprint into real code, starting with the first services and how the core system started to take shape.
