@@ -2,7 +2,7 @@
 title: "GMS: Building the Core Services"
 subtitle: "Grading Management System"
 author: "Yuvraj Rathod"
-date: "2026-07-10"
+date: "2026-07-12"
 description: "An inside look at building the core microservices of GMS incrementally, implementing communication patterns, testing APIs, and separating business logic."
 categories: [Software Engineering, Open Source]
 format:
